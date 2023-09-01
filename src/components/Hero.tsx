@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
 import { Highlight } from 'prism-react-renderer'
@@ -8,19 +8,12 @@ import { HeroBackground } from '@/components/HeroBackground'
 import blurCyanImage from '@/images/blur-cyan.png'
 import blurIndigoImage from '@/images/blur-indigo.png'
 
-const codeLanguage = 'javascript'
-const code = `export default {
-  strategy: 'predictive',
-  engine: {
-    cpus: 12,
-    backups: ['./storage/cache.wtf'],
-  },
-}`
-
-const tabs = [
-  { name: 'cache-advance.config.js', isActive: true },
-  { name: 'package.json', isActive: false },
-]
+interface snippetTab {
+  name: string
+  code: string
+  active: boolean
+  setActive: Dispatch<SetStateAction<boolean>>
+}
 
 function TrafficLightsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -32,7 +25,80 @@ function TrafficLightsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
+function createTab(name: string, code: string, active: boolean): snippetTab {
+  var [active_, setActive] = useState(active)
+  return {
+    name: name,
+    code: code,
+    active: active_,
+    setActive: setActive,
+  }
+}
+
+function bashTab() {
+  const code = `name: extract a frame from a video
+env:
+  SRC: https://example.com/input.mov
+  DST: https://example.com/upload/frame.jpg
+image: jrottenberg/ffmpeg:3.4-alpine
+run: |
+  ffmpeg -i $SRC -vframes 1 \\
+    -an -s 400x222 -ss 30 /tmp/frame.jpg
+  wget --post-file=/tmp/frame.jpg $DST`
+  return createTab('Bash', code, true)
+}
+
+function pythonTab() {
+  const code = `name: Get the post
+image: python:3
+files:
+  script.py: |
+    import requests
+    url = "https://jsonplaceholder.typicode.com/posts/1"
+    response = requests.get(url)
+    data = response.json()
+    print(data['title'])
+run: |
+  pip install requests
+  python script.py > $TORK_OUTPUT`
+  return createTab('Python', code, false)
+}
+
+function goTab() {
+  const code = `name: a go task
+image: golang:alpine3.18
+files:
+  main.go: |
+    package main
+    import "fmt"
+    func main() {
+     fmt.Println("Hello world!")
+    }
+run: |
+  go run main.go > $TORK_OUTPUT
+  `
+  return createTab('Go', code, false)
+}
+
+function sqlTab() {
+  const code = `name: count number of employees per department
+image: postgres:15
+env:
+  PGPASSWORD: supersecret
+files:
+  script.sql: |
+    SELECT department, count(*) AS emp_count
+    FROM employees
+    GROUP BY department
+    ORDER BY 2 desc;
+run: |
+  psql -h mypostgreshost -U me -f script.sql`
+  return createTab('SQL', code, false)
+}
+
 export function Hero() {
+  const tabs = [bashTab(), pythonTab(), sqlTab(), goTab()]
+  const [currenTab, setCurrentTab] = useState(tabs[0])
   return (
     <div className="overflow-hidden bg-slate-900 dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem]">
       <div className="py-16 sm:px-2 lg:relative lg:px-0 lg:py-20">
@@ -49,15 +115,19 @@ export function Hero() {
             />
             <div className="relative">
               <p className="inline bg-gradient-to-r from-indigo-200 via-sky-400 to-indigo-200 bg-clip-text font-display text-5xl tracking-tight text-transparent">
-                Never miss the cache again.
+                Workflow Automation. Simplified.
               </p>
               <p className="mt-3 text-2xl tracking-tight text-slate-400">
-                Cache every single thing your app could ever do ahead of time,
-                so your code never even has to run at all.
+                Creating workflows shouldn't be complicated or restricted to
+                engineers; it should be available to everyone in the language
+                they feel most comfortable with.
               </p>
               <div className="mt-8 flex gap-4 md:justify-center lg:justify-start">
-                <Button href="/">Get started</Button>
-                <Button href="/" variant="secondary">
+                <Button href="/#quick-start">Quick Start</Button>
+                <Button
+                  href="https://github.com/runabol/tork"
+                  variant="secondary"
+                >
                   View on GitHub
                 </Button>
               </div>
@@ -97,9 +167,14 @@ export function Hero() {
                     {tabs.map((tab) => (
                       <div
                         key={tab.name}
+                        onClick={() => {
+                          currenTab.setActive(false)
+                          tab.setActive(true)
+                          setCurrentTab(tab)
+                        }}
                         className={clsx(
-                          'flex h-6 rounded-full',
-                          tab.isActive
+                          'flex h-6 rounded-full hover:cursor-pointer',
+                          tab.active
                             ? 'bg-gradient-to-r from-sky-400/30 via-sky-400 to-sky-400/30 p-px font-medium text-sky-300'
                             : 'text-slate-500',
                         )}
@@ -107,7 +182,7 @@ export function Hero() {
                         <div
                           className={clsx(
                             'flex items-center rounded-full px-2.5',
-                            tab.isActive && 'bg-slate-800',
+                            tab.active && 'bg-slate-800',
                           )}
                         >
                           {tab.name}
@@ -121,7 +196,7 @@ export function Hero() {
                       className="select-none border-r border-slate-300/5 pr-4 font-mono text-slate-600"
                     >
                       {Array.from({
-                        length: code.split('\n').length,
+                        length: currenTab.code.split('\n').length,
                       }).map((_, index) => (
                         <Fragment key={index}>
                           {(index + 1).toString().padStart(2, '0')}
@@ -130,8 +205,8 @@ export function Hero() {
                       ))}
                     </div>
                     <Highlight
-                      code={code}
-                      language={codeLanguage}
+                      code={currenTab.code}
+                      language={'yaml'}
                       theme={{ plain: {}, styles: [] }}
                     >
                       {({
