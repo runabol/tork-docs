@@ -1,5 +1,6 @@
 import { Callout } from '@/components/Callout'
 import { QuickLink, QuickLinks } from '@/components/QuickLinks'
+import { Cta } from '@/components/Cta'
 
 const tags = {
   callout: {
@@ -42,6 +43,13 @@ const tags = {
       href: { type: String },
     },
   },
+  'cta': {
+    render: Cta,
+    attributes: {
+      href: { type: String },
+      variant: { type: String },
+    },
+  }
 }
 
 export default tags
