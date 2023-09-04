@@ -8,7 +8,7 @@ nextjs:
 
 Download and install Tork quickly with the steps described here.
 
-{% cta href="https://github.com/runabol/tork/releases/tag/v0.0.5" %} Download (0.0.5) {% /cta %}
+{% cta href="https://github.com/runabol/tork/releases/tag/v0.0.6" %} Download (0.0.6) {% /cta %}
 
 ---
 
@@ -37,7 +37,7 @@ cd ~/tork
 Unpack the Tork binary:
 
 ```shell
-tar xzvf ~/Downloads/default.release.tork_0.0.5_darwin_arm64.tgz
+tar xzvf ~/Downloads/default.release.tork_0.0.6_darwin_arm64.tgz
 ```
 
 Run Tork:
@@ -57,7 +57,7 @@ If the installation is successful you should see something like this:
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.0.5 (1ce2cbf)
+ 0.0.6 (c71c725)
 
 NAME:
    tork - a distributed workflow engine
@@ -98,7 +98,7 @@ This mode is ideal when running on a single machine.
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.0.5 (1ce2cbf)
+ 0.0.6 (c71c725)
 
 11:28AM INF starting worker ee618a38713e44da805aaebae319ab79
 11:28AM DBG subscribing for tasks on x-ee618a38713e44da805aaebae319ab79
@@ -193,7 +193,7 @@ Run a migration to create the database schema
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.0.5 (1ce2cbf)
+ 0.0.6 (c71c725)
 
 11:53AM INF migration completed!
 ```
