@@ -54,3 +54,20 @@ What will happen:
 13. Since there is another task, the Coordinator will be repeat the above steps for this task.
 
 14. Once all tasks are completed, the job state will be marked as `COMPLETED`.
+
+## Inputs
+
+Jobs may specify `inputs` which can be used by any of the job's tasks. Example:
+
+```yaml
+name: mov to mp4
+inputs:
+  source: https://example.com/path/to/video.mov
+tasks:
+  - name: convert the video to mp4
+    image: jrottenberg/ffmpeg:3.4-alpine
+    env:
+      SOURCE_URL: '{{ inputs.source }}'
+    run: |
+      ffmpeg -i $SOURCE_URL /tmp/output.mp4
+```

@@ -12,7 +12,7 @@ export const navigation = [
     title: 'Core concepts',
     links: [
       { title: 'Jobs', href: '/jobs' },
-      { title: 'Tasks', href: '#' },
+      { title: 'Tasks', href: '/tasks' },
     ],
   },
   {
