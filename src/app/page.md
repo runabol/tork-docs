@@ -6,7 +6,7 @@ title: Getting Started
 
 {% quick-link title="Installation" icon="installation" href="/installation" description="Step-by-step guide to getting you up and running." /%}
 
-{% quick-link title="Architecture" icon="presets" href="/" description="Take a look under the hood." /%}
+{% quick-link title="Architecture" icon="presets" href="/architecture" description="Take a look under the hood." /%}
 
 {% quick-link title="API reference" icon="theming" href="/" description="Learn how to interact with Tork using its REST API." /%}
 
