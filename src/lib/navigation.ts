@@ -11,13 +11,13 @@ export const navigation = [
   {
     title: 'Core concepts',
     links: [
-      { title: 'Jobs', href: '#' },
+      { title: 'Jobs', href: '/jobs' },
       { title: 'Tasks', href: '#' },
     ],
   },
   {
     title: 'Advanced guides',
-    links: [{ title: 'Writing plugins', href: '#' }],
+    links: [{ title: 'Plugins', href: '/plugins' }],
   },
   {
     title: 'API reference',
