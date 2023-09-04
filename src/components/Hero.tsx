@@ -1,4 +1,11 @@
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
+import {
+  Dispatch,
+  Fragment,
+  ReactElement,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
 import { Highlight } from 'prism-react-renderer'
@@ -25,18 +32,10 @@ function TrafficLightsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-function createTab(name: string, code: string, active: boolean): snippetTab {
-  var [active_, setActive] = useState(active)
-  return {
-    name: name,
-    code: code,
-    active: active_,
-    setActive: setActive,
-  }
-}
-
-function bashTab() {
-  const code = `name: extract a frame from a video
+const codes = new Map<String, string>([
+  [
+    'Bash',
+    `name: extract a frame from a video
 env:
   SRC: https://example.com/input.mov
   DST: https://example.com/upload/frame.jpg
@@ -44,12 +43,11 @@ image: jrottenberg/ffmpeg:3.4-alpine
 run: |
   ffmpeg -i $SRC -vframes 1 \\
     -an -s 400x222 -ss 30 /tmp/frame.jpg
-  wget --post-file=/tmp/frame.jpg $DST`
-  return createTab('Bash', code, true)
-}
-
-function pythonTab() {
-  const code = `name: Get the post
+  wget --post-file=/tmp/frame.jpg $DST`,
+  ],
+  [
+    'Python',
+    `name: Get the post
 image: python:3
 files:
   script.py: |
@@ -60,28 +58,26 @@ files:
     print(data['title'])
 run: |
   pip install requests
-  python script.py > $TORK_OUTPUT`
-  return createTab('Python', code, false)
-}
-
-function goTab() {
-  const code = `name: a go task
+  python script.py > $TORK_OUTPUT`,
+  ],
+  [
+    'Go',
+    `name: a go task
 image: golang:alpine3.18
 files:
   main.go: |
     package main
     import "fmt"
     func main() {
-     fmt.Println("Hello world!")
+      fmt.Println("Hello world!")
     }
 run: |
   go run main.go > $TORK_OUTPUT
-  `
-  return createTab('Go', code, false)
-}
-
-function sqlTab() {
-  const code = `name: count number of employees per department
+  `,
+  ],
+  [
+    'SQL',
+    `name: count number of employees per department
 image: postgres:15
 env:
   PGPASSWORD: supersecret
@@ -92,13 +88,46 @@ files:
     GROUP BY department
     ORDER BY 2 desc;
 run: |
-  psql -h mypostgreshost -U me -f script.sql`
-  return createTab('SQL', code, false)
+  psql -h mypostgreshost -U me -f script.sql`,
+  ],
+])
+
+function HeroTab({
+  name,
+  current,
+  setCurrent,
+}: {
+  name: string
+  current: string
+  setCurrent: Dispatch<SetStateAction<string>>
+}) {
+  return (
+    <div
+      key={name}
+      onClick={() => {
+        setCurrent(name)
+      }}
+      className={clsx(
+        'flex h-6 rounded-full hover:cursor-pointer',
+        name === current
+          ? 'bg-gradient-to-r from-sky-400/30 via-sky-400 to-sky-400/30 p-px font-medium text-sky-300'
+          : 'text-slate-500',
+      )}
+    >
+      <div
+        className={clsx(
+          'flex items-center rounded-full px-2.5',
+          name === current && 'bg-slate-800',
+        )}
+      >
+        {name}
+      </div>
+    </div>
+  )
 }
 
 export function Hero() {
-  const tabs = [bashTab(), pythonTab(), sqlTab(), goTab()]
-  const [currenTab, setCurrentTab] = useState(tabs[0])
+  const [currenTab, setCurrentTab] = useState('Bash')
   return (
     <div className="overflow-hidden bg-slate-900 dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem]">
       <div className="py-16 sm:px-2 lg:relative lg:px-0 lg:py-20">
@@ -118,8 +147,8 @@ export function Hero() {
                 Workflow Automation. Simplified.
               </p>
               <p className="mt-3 text-2xl tracking-tight text-slate-400">
-                Creating workflows shouldn't be complicated or restricted to
-                engineers; it should be available to everyone in the language
+                Creating workflows shouldn&apos;t be complicated or restricted
+                to engineers; it should be available to everyone in the language
                 they feel most comfortable with.
               </p>
               <div className="mt-8 flex gap-4 md:justify-center lg:justify-start">
@@ -164,31 +193,26 @@ export function Hero() {
                 <div className="pl-4 pt-4">
                   <TrafficLightsIcon className="h-2.5 w-auto stroke-slate-500/30" />
                   <div className="mt-4 flex space-x-2 text-xs">
-                    {tabs.map((tab) => (
-                      <div
-                        key={tab.name}
-                        onClick={() => {
-                          currenTab.setActive(false)
-                          tab.setActive(true)
-                          setCurrentTab(tab)
-                        }}
-                        className={clsx(
-                          'flex h-6 rounded-full hover:cursor-pointer',
-                          tab.active
-                            ? 'bg-gradient-to-r from-sky-400/30 via-sky-400 to-sky-400/30 p-px font-medium text-sky-300'
-                            : 'text-slate-500',
-                        )}
-                      >
-                        <div
-                          className={clsx(
-                            'flex items-center rounded-full px-2.5',
-                            tab.active && 'bg-slate-800',
-                          )}
-                        >
-                          {tab.name}
-                        </div>
-                      </div>
-                    ))}
+                    <HeroTab
+                      current={currenTab}
+                      setCurrent={setCurrentTab}
+                      name="Bash"
+                    />
+                    <HeroTab
+                      current={currenTab}
+                      setCurrent={setCurrentTab}
+                      name="Python"
+                    />
+                    <HeroTab
+                      current={currenTab}
+                      setCurrent={setCurrentTab}
+                      name="SQL"
+                    />
+                    <HeroTab
+                      current={currenTab}
+                      setCurrent={setCurrentTab}
+                      name="Go"
+                    />
                   </div>
                   <div className="mt-6 flex items-start px-1 text-sm">
                     <div
@@ -196,7 +220,7 @@ export function Hero() {
                       className="select-none border-r border-slate-300/5 pr-4 font-mono text-slate-600"
                     >
                       {Array.from({
-                        length: currenTab.code.split('\n').length,
+                        length: (codes.get(currenTab) || '').split('\n').length,
                       }).map((_, index) => (
                         <Fragment key={index}>
                           {(index + 1).toString().padStart(2, '0')}
@@ -205,7 +229,7 @@ export function Hero() {
                       ))}
                     </div>
                     <Highlight
-                      code={currenTab.code}
+                      code={codes.get(currenTab) || ''}
                       language={'yaml'}
                       theme={{ plain: {}, styles: [] }}
                     >
