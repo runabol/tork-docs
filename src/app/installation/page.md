@@ -245,3 +245,39 @@ Start the worker(s):
  -broker rabbitmq \
  -rabbitmq-url amqp://guest:guest@localhost:5672
 ```
+
+## Queues
+
+By default all tasks are routed to the `default` queue.
+
+All worker nodes automatically subscribe to the `default` queue in order to consume tasks. unless started with a `--queue` flag.
+
+Worker nodes can also subscribe multiple times to the same queue in order to execute N tasks in parallel. Example:
+
+```shell
+./tork worker -broker rabbitmq -queue default:5
+```
+
+Will allow the worker to consume up to 5 tasks in parallel from the `default` queue.
+
+It is often desirable to route tasks to different queues in order to create specialized pools of workers.
+
+For example, one pool of workers, might be specially configured to handle video transcoding can listen to video-processing related tasks:
+
+```shell
+./tork worker -broker rabbitmq -queue video:2 -queue default:5
+```
+
+Will allow the worker to consume up to 1 tasks in parallel from the `video` queue and up to 5 tasks from the `default` queue.
+
+To route a task to the non-`default` queue, use the `queue` property:
+
+```yaml
+name: transcode a video
+queue: video
+image: jrottenberg/ffmpeg:3.4-alpine
+run: |
+  ffmpeg \
+    -i https://example.com/some/video.mov \
+    output.mp4
+```
