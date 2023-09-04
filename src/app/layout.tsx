@@ -23,7 +23,7 @@ const lexend = localFont({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s - Docs',
+    template: '%s - Tork Workflow Engine',
     default: 'Tork - Open Source Workflow Engine',
   },
   description:
