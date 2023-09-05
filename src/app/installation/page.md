@@ -112,7 +112,6 @@ This mode is ideal when running on a single machine.
 11:28AM DBG subscribing for tasks on started
 11:28AM INF worker listening on :8001
 11:28AM INF coordinator listening on :8000
-11:28AM INF received first heartbeat hostname=Ariks-MacBook-Pro.local node-id=ee618a38713e44da805aaebae319ab79
 ```
 
 ### Run your first job
