@@ -10,6 +10,7 @@ const variantStyles = {
 
 type CtaProps = {
   variant?: keyof typeof variantStyles
+  target?: string
 } & (
   | React.ComponentPropsWithoutRef<typeof Link>
   | (React.ComponentPropsWithoutRef<'button'> & { href: string })
@@ -18,12 +19,13 @@ type CtaProps = {
 export function Cta({
   variant = 'primary',
   className,
+  target,
   children,
   ...props
 }: CtaProps) {
   className = clsx(variantStyles[variant], className)
   return (
-    <Link href={props.href}>
+    <Link href={props.href} target={target}>
       <button className={className}>{children}</button>
     </Link>
   )

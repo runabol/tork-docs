@@ -48,6 +48,7 @@ const tags = {
     attributes: {
       href: { type: String },
       variant: { type: String },
+      target: { type: String },
     },
   }
 }
