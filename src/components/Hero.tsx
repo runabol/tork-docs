@@ -37,13 +37,13 @@ const codes = new Map<String, string>([
     'Bash',
     `name: extract a frame from a video
 env:
-  SRC: https://example.com/input.mov
-  DST: https://example.com/upload/frame.jpg
+  SRC: https://demo.com/input.mov
+  DST: https://demo.com/upload/frame.jpg
 image: jrottenberg/ffmpeg:3.4-alpine
 run: |
   ffmpeg -i $SRC -vframes 1 \\
-    -an -s 400x222 -ss 30 /tmp/frame.jpg
-  wget --post-file=/tmp/frame.jpg $DST`,
+    -an -s 400x222 -ss 30 frame.jpg
+  wget --post-file=frame.jpg $DST`,
   ],
   [
     'Python',
