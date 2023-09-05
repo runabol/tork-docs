@@ -18,22 +18,22 @@ title: Getting Started
 
 ## Features
 
-- REST API
+- [REST API](/rest)
 - Horizontally scalable
 - Task isolation - tasks are executed within a container to provide isolation, idempotency, and in order to enforce resource limits
 - Automatic recovery of tasks in the event of a worker crash
-- Supports both stand-alone and distributed setup
+- Supports both stand-alone and [distributed](/installation#running-in-a-distributed-mode) setup
 - Retry failed tasks
-- Pre/Post tasks
 - No single point of failure
 - Task timeout
 - Full-text search
-- Expression Language
+- [Expression Language](/tasks#expressions)
 - Conditional Tasks
-- Parallelizing tasks
-- Each Task
-- Subjob Task
-- Web UI
+- [Parallel](/tasks#parallel-task) Task
+- [Each Task](/tasks#each-task)
+- [Subjob](/tasks#sub-job-task) Task
+- [Pre/Post](https://www.tork.run/tasks#pre-post-tasks) tasks
+- [Web UI](/web-ui)
 
 ---
 
