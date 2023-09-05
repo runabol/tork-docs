@@ -29,10 +29,10 @@ title: Getting Started
 - Full-text search
 - [Expression Language](/tasks#expressions)
 - Conditional Tasks
-- [Parallel](/tasks#parallel-task) Task
+- [Parallel Task](/tasks#parallel-task)
 - [Each Task](/tasks#each-task)
-- [Subjob](/tasks#sub-job-task) Task
-- [Pre/Post](https://www.tork.run/tasks#pre-post-tasks) tasks
+- [Subjob Task](/tasks#sub-job-task)
+- [Pre/Post tasks](https://www.tork.run/tasks#pre-post-tasks)
 - [Web UI](/web-ui)
 
 ---
