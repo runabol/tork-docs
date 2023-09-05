@@ -171,7 +171,7 @@ Example:
 ```yaml
 - name: sample each task
   each:
-    list: '{{ range(1,5) }}'
+    list: '{{ sequence(1,5) }}'
     task:
       image: ubuntu:mantic
       env:
