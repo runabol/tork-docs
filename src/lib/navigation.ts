@@ -22,8 +22,8 @@ export const navigation = [
   {
     title: 'API reference',
     links: [
-      { title: '/health', href: '#' },
-      { title: '/jobs', href: '#' },
+      { title: 'Health', href: '/rest#health-check' },
+      { title: 'Jobs', href: '/rest#list-jobs' },
     ],
   },
 ]
