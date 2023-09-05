@@ -8,9 +8,9 @@ title: Getting Started
 
 {% quick-link title="Architecture" icon="presets" href="/architecture" description="Take a look under the hood." /%}
 
-{% quick-link title="API reference" icon="theming" href="/" description="Learn how to interact with Tork using its REST API." /%}
+{% quick-link title="API reference" icon="theming" href="/rest" description="Learn how to interact with Tork using its REST API." /%}
 
-{% quick-link title="Plugins" icon="plugins" href="/" description="Extend Tork with third-party plugins or write your own." /%}
+{% quick-link title="Plugins" icon="plugins" href="/plugins" description="Extend Tork with third-party plugins or write your own." /%}
 
 {% /quick-links %}
 
