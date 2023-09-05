@@ -66,14 +66,16 @@ USAGE:
    tork [global options] command [command options] [arguments...]
 
 COMMANDS:
-   coordinator  run the coordinator
-   worker       run a worker
-   standalone   run the coordinator and a worker
-   migration    run the db migration script
-   help, h      Shows a list of commands or help for one command
+   run        Run Tork
+   migration  Run the db migration script
+   health     Perform a health check
+   help, h    Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --help, -h  show help
+   --banner-mode value  Set the banner mode (off|console|log) (default: "console")
+   --log-level value    Configure the logging level (debug|info|warn|error) (default: "debug")
+   --log-format value   Configure the logging format (pretty|json) (default: "pretty")
+   --help, -h           show help
 ```
 
 You may need to allow the binary to run on your system from your security settings:
@@ -86,7 +88,7 @@ The easiest way to "kick the tires" is to run Tork in `standalone` mode.
 This mode is ideal when running on a single machine.
 
 ```shell
-./tork standalone
+./tork run standalone
 ```
 
 ```shell
@@ -200,7 +202,7 @@ Run a migration to create the database schema
 Start Tork:
 
 ```shell
-./tork \
+./tork run \
   standalone \
   --datastore postgres \
   --postgres-dsn "host=localhost user=tork password=tork dbname=tork port=5432 sslmode=disable"
@@ -230,7 +232,7 @@ docker run \
 Start the Coordinator:
 
 ```shell
-./tork \
+./tork run \
  coordinator \
  -broker rabbitmq \
  -rabbitmq-url amqp://guest:guest@localhost:5672
@@ -239,7 +241,7 @@ Start the Coordinator:
 Start the worker(s):
 
 ```shell
-./tork \
+./tork run \
  worker \
  -broker rabbitmq \
  -rabbitmq-url amqp://guest:guest@localhost:5672
@@ -254,7 +256,7 @@ All worker nodes automatically subscribe to the `default` queue in order to cons
 Worker nodes can also subscribe multiple times to the same queue in order to execute N tasks in parallel. Example:
 
 ```shell
-./tork worker -broker rabbitmq -queue default:5
+./tork run worker -broker rabbitmq -queue default:5
 ```
 
 Will allow the worker to consume up to 5 tasks in parallel from the `default` queue.
@@ -264,7 +266,7 @@ It is often desirable to route tasks to different queues in order to create spec
 For example, one pool of workers, might be specially configured to handle video transcoding can listen to video-processing related tasks:
 
 ```shell
-./tork worker -broker rabbitmq -queue video:2 -queue default:5
+./tork run worker -broker rabbitmq -queue video:2 -queue default:5
 ```
 
 Will allow the worker to consume up to 1 tasks in parallel from the `video` queue and up to 5 tasks from the `default` queue.

@@ -48,7 +48,7 @@ title: Getting Started
 Start Tork in `standalone` mode:
 
 ```shell
-./tork standalone
+./tork run standalone
 ```
 
 Create a file called `hello.yaml` with the following contents:
