@@ -149,7 +149,7 @@ Task properties:
     - /data1
     - /data2
   ```
-  **note**: if you get an `invalid mount config for type "bind": bind source path does not exist` error it's most likely due to the fact that the Docker daemon isn't allowed to mount volumes from your default `$TMPDIR`. Try using the `--temp-dir` flag to explictly set it to another directory.
+  **note**: if you get an `invalid mount config for type "bind": bind source path does not exist` error it's most likely due to the fact that the Docker daemon isn't allowed to mount volumes from your default `$TMPDIR`. Try using the `worker.temp_dir` config to explictly set it to another directory.
 - `networks` - Networks are the layer that allow task containers within the same node to communicate with each other. This could be useful when certain nodes are configured with long-running services which the task needs access to.
   ```yaml
   networks:

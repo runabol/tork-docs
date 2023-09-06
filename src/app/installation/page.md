@@ -8,7 +8,7 @@ nextjs:
 
 Download and install Tork quickly with the steps described here.
 
-{% cta href="https://github.com/runabol/tork/releases/tag/v0.0.9" target="_blank"  %} Download (0.0.9) {% /cta %}
+{% cta href="https://github.com/runabol/tork/releases/tag/v0.0.10" target="_blank"  %} Download (0.0.10) {% /cta %}
 
 ---
 
@@ -37,7 +37,7 @@ cd ~/tork
 Unpack the Tork binary:
 
 ```shell
-tar xzvf ~/Downloads/default.release.tork_0.0.9_darwin_arm64.tgz
+tar xzvf ~/Downloads/default.release.tork_0.0.10_darwin_arm64.tgz
 ```
 
 Run Tork:
@@ -57,7 +57,7 @@ If the installation is successful you should see something like this:
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.0.9 (7c8d851)
+ 0.0.10 (d699c1b)
 
 NAME:
    tork - a distributed workflow engine
@@ -72,10 +72,8 @@ COMMANDS:
    help, h    Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --banner-mode value  Set the banner mode (off|console|log) (default: "console")
-   --log-level value    Configure the logging level (debug|info|warn|error) (default: "debug")
-   --log-format value   Configure the logging format (pretty|json) (default: "pretty")
-   --help, -h           show help
+   --config value  Set the location of the config file
+   --help, -h      show help
 ```
 
 You may need to allow the binary to run on your system from your security settings:
@@ -100,7 +98,7 @@ This mode is ideal when running on a single machine.
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.0.9 (7c8d851)
+ 0.0.10 (d699c1b)
 
 11:28AM INF starting worker ee618a38713e44da805aaebae319ab79
 11:28AM DBG subscribing for tasks on x-ee618a38713e44da805aaebae319ab79
@@ -160,11 +158,20 @@ curl -s http://localhost:8000/jobs/$JOB_ID
 
 The `Datastore` is responsible for holding job and task state.
 
-You can specify which type of datastore to use using the `--datastore` flag.
+You can specify which type of datastore to use using the config file.
 
 `inmemory` (default) - Runs entirely in memory. Convenient for experimentation and development but typically isn't suitable for production uses cases because all state will be lost upon restart.
 
 `postgres` - Uses a [Postgres](https://www.postgresql.org/) database as the underlying implementation.
+
+```toml
+# config.toml
+[datastore]
+type = "postgres"
+
+[datastore.postgres]
+dsn = "host=localhost user=tork password=tork dbname=tork port=5432 sslmode=disable"
+```
 
 Example of running Postgres:
 
@@ -182,7 +189,7 @@ docker run -d \
 Run a migration to create the database schema
 
 ```shell
-./tork migration --datastore postgres
+./tork --config config.toml migration
 ```
 
 ```shell
@@ -194,7 +201,7 @@ Run a migration to create the database schema
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.0.9 (7c8d851)
+ 0.0.10 (d699c1b)
 
 11:53AM INF migration completed!
 ```
@@ -212,13 +219,22 @@ Start Tork:
 
 The broker is responsible for routing tasks between the Coordinator and Worker nodes.
 
-You can specify which type of broker to use using the `--broker` flag.
+You can specify which type of broker to use using the config file.
 
 `inmemory` (default) - Runs entirely in memory. Convenient for experimentation and development on a single machine.
 
 `rabbitmq` - Uses [RabbitMQ](https://www.rabbitmq.com/) as the underlying implementation. Suitable for a distributed setup with 2 or more machines.
 
 Example of running RabbitMQ:
+
+```toml
+# config.toml
+[broker]
+type = "rabbitmq"
+
+[broker.rabbitmq]
+url = "amqp://guest:guest@localhost:5672/"
+```
 
 ```shell
 docker run \
@@ -232,31 +248,34 @@ docker run \
 Start the Coordinator:
 
 ```shell
-./tork run \
- coordinator \
- -broker rabbitmq \
- -rabbitmq-url amqp://guest:guest@localhost:5672
+./tork --config config.toml run coordinator
 ```
 
 Start the worker(s):
 
 ```shell
-./tork run \
- worker \
- -broker rabbitmq \
- -rabbitmq-url amqp://guest:guest@localhost:5672
+./tork --config config.toml run worker
 ```
 
 ## Queues
 
 By default all tasks are routed to the `default` queue.
 
-All worker nodes automatically subscribe to the `default` queue in order to consume tasks. unless started with a `--queue` flag.
+All worker nodes automatically subscribe to the `default` queue in order to consume tasks, unless provided queue configuration.
 
 Worker nodes can also subscribe multiple times to the same queue in order to execute N tasks in parallel. Example:
 
+```toml
+# config.toml
+[worker.queues]
+default = 5
+
+[broker]
+type = "rabbitmq"
+```
+
 ```shell
-./tork run worker -broker rabbitmq -queue default:5
+./tork --config config.toml run worker
 ```
 
 Will allow the worker to consume up to 5 tasks in parallel from the `default` queue.
@@ -265,8 +284,18 @@ It is often desirable to route tasks to different queues in order to create spec
 
 For example, one pool of workers, might be specially configured to handle video transcoding can listen to video-processing related tasks:
 
+```toml
+# config.toml
+[worker.queues]
+default = 5
+video = 2
+
+[broker]
+type = "rabbitmq"
+```
+
 ```shell
-./tork run worker -broker rabbitmq -queue video:2 -queue default:5
+./tork --config config.toml run worker
 ```
 
 Will allow the worker to consume up to 1 tasks in parallel from the `video` queue and up to 5 tasks from the `default` queue.
