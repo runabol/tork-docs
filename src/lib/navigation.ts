@@ -18,7 +18,7 @@ export const navigation = [
   },
   {
     title: 'Advanced guides',
-    links: [{ title: 'Plugins', href: '/plugins' }],
+    links: [{ title: 'Extending Tork', href: '/extending' }],
   },
   {
     title: 'API reference',
