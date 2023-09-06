@@ -158,7 +158,7 @@ curl -s http://localhost:8000/jobs/$JOB_ID
 
 The `Datastore` is responsible for holding job and task state.
 
-You can specify which type of datastore to use using the config file.
+You can specify which type of datastore to use using the [config file](/config).
 
 `inmemory` (default) - Runs entirely in memory. Convenient for experimentation and development but typically isn't suitable for production uses cases because all state will be lost upon restart.
 
@@ -219,7 +219,7 @@ Start Tork:
 
 The broker is responsible for routing tasks between the Coordinator and Worker nodes.
 
-You can specify which type of broker to use using the config file.
+You can specify which type of broker to use using the [config file](/config).
 
 `inmemory` (default) - Runs entirely in memory. Convenient for experimentation and development on a single machine.
 
