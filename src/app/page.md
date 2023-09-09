@@ -10,7 +10,7 @@ title: Getting Started
 
 {% quick-link title="API reference" icon="theming" href="/rest" description="Learn how to interact with Tork using its REST API." /%}
 
-{% quick-link title="Extending Tork" icon="plugins" href="/extending" description="Extend Tork for your particular use case." /%}
+{% quick-link title="Customize Tork" icon="plugins" href="/customize" description="Extend Tork for your particular use case." /%}
 
 {% /quick-links %}
 
