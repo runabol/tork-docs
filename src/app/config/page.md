@@ -26,7 +26,7 @@ If no configuration file is found, Tork will attempt to start using sensible def
 [cli]
 # whether or not to display the ASCII banner
 # when starting Tork
-banner_mode = "console" # off | console | log
+banner.mode = "console" # off | console | log
 
 [client]
 # When using the CLI as a client,
@@ -71,13 +71,21 @@ started = 1   # started queue consumers (default: 1)
 hearbeat = 1  # heartbeat queue consumers (default: 1)
 jobs = 1      # jobs queue consumers (default: 1)
 
+[coordinator.api]
+endpoints.health = true # turn on|off the /health endpoint
+endpoints.jobs = true   # turn on|off the /jobs endpoints
+endpoints.tasks = true  # turn on|off the /tasks endpoints
+endpoints.nodes = true  # turn on|off the /nodes endpoint
+endpoints.queues = true # turn on|off the /queues endpoint
+endpoints.stats = true  # turn on|off the /stats endpoint
+
 [worker]
 # The address of the Worker to listen
 # on for REST API requests
 address = "localhost:8001"
 # The directory used as the parent
 # directory for temporary volumes
-temp_dir = "/tmp"
+tempdir = "/tmp"
 
 [worker.queues]
 # Specify how many consumers to create for a given

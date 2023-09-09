@@ -18,7 +18,11 @@ export const navigation = [
   },
   {
     title: 'Advanced guides',
-    links: [{ title: 'Extending Tork', href: '/extending' }],
+    links: [
+      { title: 'Customize Tork', href: '/customize' },
+      { title: 'Datastore', href: '/datastore' },
+      { title: 'Broker', href: '/broker' },
+    ],
   },
   {
     title: 'API reference',
