@@ -1,9 +1,9 @@
 ---
-title: Customize Tork
+title: Extend Tork
 nextjs:
   metadata:
-    title: Customize Tork
-    description: Customize Tork
+    title: Extend Tork
+    description: Extend and customize Tork
 ---
 
 Tork's architecture makes it fairly easy to add functionality to the core engine.

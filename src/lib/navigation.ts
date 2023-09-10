@@ -19,7 +19,7 @@ export const navigation = [
   {
     title: 'Advanced guides',
     links: [
-      { title: 'Customize Tork', href: '/customize' },
+      { title: 'Extend Tork', href: '/customize' },
       { title: 'Datastore', href: '/datastore' },
       { title: 'Broker', href: '/broker' },
     ],
