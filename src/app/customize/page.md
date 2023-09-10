@@ -36,7 +36,7 @@ go get github.com/runabol/tork
 ```
 
 ```bash
-go: added github.com/runabol/tork v0.1.3
+go: added github.com/runabol/tork v0.1.4
 ```
 
 Create a `main.go` with the minimum bolierplate necessary to start Tork:
@@ -49,7 +49,7 @@ import (
 	"os"
 
 	"github.com/runabol/tork/cli"
-	"github.com/runabol/tork/conf"
+	"github.com/runabol/tork/pkg/conf"
 )
 
 func main() {
@@ -90,7 +90,7 @@ If all goes well, your should see something like this:
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.1.3 (1df8ca2)
+ 0.1.4 (d8c5ecd)
 
 NAME:
    tork - a distributed workflow engine
@@ -123,9 +123,9 @@ import (
 	"os"
 
 	"github.com/runabol/tork/cli"
-	"github.com/runabol/tork/conf"
-	"github.com/runabol/tork/engine"
-	"github.com/runabol/tork/middleware"
+	"github.com/runabol/tork/pkg/conf"
+	"github.com/runabol/tork/pkg/engine"
+	"github.com/runabol/tork/pkg/middleware"
 )
 
 func main() {
@@ -202,24 +202,32 @@ If the current middleware function does not end the request-response cycle, it m
 Example of a simple middleware function to time requests:
 
 ```golang
-mw := func(next request.HandlerFunc) request.HandlerFunc {
-	return func(c request.Context) error {
-		before := time.Now()
-		// happens before the request is processed
-		next(c)
-		// happens after the request is processed
-		log.Info().Msgf("The request to %s took %s to process",
-			c.Request().URL.Path,
-			time.Since(before),
-		)
-		return nil
-	}
-}
+func main () {
 
-app.ConfigureEngine(func(eng *engine.Engine) error {
-	eng.RegisterRequestMiddleware(mw)
-	return nil
-})
+	// code before
+
+	mw := func(next request.HandlerFunc) request.HandlerFunc {
+		return func(c request.Context) error {
+			before := time.Now()
+			// happens before the request is processed
+			next(c)
+			// happens after the request is processed
+			log.Info().Msgf("The request to %s took %s to process",
+				c.Request().URL.Path,
+				time.Since(before),
+			)
+			return nil
+		}
+	}
+
+	app.ConfigureEngine(func(eng *engine.Engine) error {
+		eng.RegisterRequestMiddleware(mw)
+		return nil
+	})
+
+	// code after
+
+}
 ```
 
 ```bash
@@ -227,7 +235,7 @@ curl http://localhost:8000/health
 ```
 
 ```json
-{ "status": "UP", "version": "0.1.3 (1df8ca2)" }
+{ "status": "UP", "version": "0.1.4 (d8c5ecd)" }
 ```
 
 And in the logs you should see something like this:
@@ -247,18 +255,26 @@ If the current middleware function does not end the handling of the job, it must
 Example of a middleware that logs job state change:
 
 ```golang
-mw := func(next job.HandlerFunc) job.HandlerFunc {
-	return func(ctx context.Context, j *tork.Job) error {
-		log.Debug().
-			Msgf("received job %s at state %s", j.ID, j.State)
-		return next(ctx, j)
-	}
-}
+func main () {
 
-app.ConfigureEngine(func(eng *engine.Engine) error {
-	eng.RegisterJobMiddleware(mw)
-	return nil
-})
+	// code before
+
+	mw := func(next job.HandlerFunc) job.HandlerFunc {
+		return func(ctx context.Context, j *tork.Job) error {
+			log.Debug().
+				Msgf("received job %s at state %s", j.ID, j.State)
+			return next(ctx, j)
+		}
+	}
+
+	app.ConfigureEngine(func(eng *engine.Engine) error {
+		eng.RegisterJobMiddleware(mw)
+		return nil
+	})
+
+	// code after
+
+}
 ```
 
 ### Task middleware
@@ -272,18 +288,26 @@ If the current middleware function does not end the handling of the task, it mus
 Example of a middleware that logs task state change:
 
 ```golang
-mw := func(next task.HandlerFunc) task.HandlerFunc {
-	return func(ctx context.Context, t *tork.Task) error {
-		log.Debug().
-			Msgf("received task %s at state %s", t.ID, t.State)
-		return next(ctx, t)
-	}
-}
+func main () {
 
-app.ConfigureEngine(func(eng *engine.Engine) error {
-	eng.RegisterTaskMiddleware(mw)
-	return nil
-})
+	// code before
+
+	mw := func(next task.HandlerFunc) task.HandlerFunc {
+		return func(ctx context.Context, t *tork.Task) error {
+			log.Debug().
+				Msgf("received task %s at state %s", t.ID, t.State)
+			return next(ctx, t)
+		}
+	}
+
+	app.ConfigureEngine(func(eng *engine.Engine) error {
+		eng.RegisterTaskMiddleware(mw)
+		return nil
+	})
+
+	// code after
+
+}
 ```
 
 ### Node middleware
@@ -297,18 +321,26 @@ If the current middleware function does not end the handling of the heartbeat, i
 Example of a middleware that logs heartbeats:
 
 ```golang
-mw := func(next node.HandlerFunc) node.HandlerFunc {
-	return func(ctx context.Context, n *tork.Node) error {
-		log.Debug().
-			Msgf("received heartbeat from %s", n.Hostname)
-		return next(ctx, n)
-	}
-}
+func main () {
 
-app.ConfigureEngine(func(eng *engine.Engine) error {
-	eng.RegisterNodeMiddleware(mw)
-	return nil
-})
+	// code before
+
+	mw := func(next node.HandlerFunc) node.HandlerFunc {
+		return func(ctx context.Context, n *tork.Node) error {
+			log.Debug().
+				Msgf("received heartbeat from %s", n.Hostname)
+			return next(ctx, n)
+		}
+	}
+
+	app.ConfigureEngine(func(eng *engine.Engine) error {
+		eng.RegisterNodeMiddleware(mw)
+		return nil
+	})
+
+	// code after
+
+}
 ```
 
 ## Additional examples

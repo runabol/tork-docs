@@ -31,7 +31,7 @@ import (
 	"os"
 
 	"github.com/runabol/tork/cli"
-	"github.com/runabol/tork/conf"
+	"github.com/runabol/tork/pkg/conf"
 )
 
 func main() {
