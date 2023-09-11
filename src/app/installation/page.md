@@ -72,7 +72,6 @@ COMMANDS:
    help, h    Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --config value  Set the location of the config file
    --help, -h      show help
 ```
 
@@ -158,7 +157,7 @@ curl -s http://localhost:8000/jobs/$JOB_ID
 
 The `Datastore` is responsible for holding job and task state.
 
-You can specify which type of datastore to use using the [config file](/config).
+You can specify which type of datastore to use using a [config file](/config).
 
 `inmemory` (default) - Runs entirely in memory. Convenient for experimentation and development but typically isn't suitable for production uses cases because all state will be lost upon restart.
 
@@ -189,7 +188,7 @@ docker run -d \
 Run a migration to create the database schema
 
 ```shell
-./tork --config config.toml migration
+./tork migration
 ```
 
 ```shell
@@ -248,13 +247,13 @@ docker run \
 Start the Coordinator:
 
 ```shell
-./tork --config config.toml run coordinator
+./tork run coordinator
 ```
 
 Start the worker(s):
 
 ```shell
-./tork --config config.toml run worker
+./tork run worker
 ```
 
 ## Queues
@@ -275,7 +274,7 @@ type = "rabbitmq"
 ```
 
 ```shell
-./tork --config config.toml run worker
+./tork run worker
 ```
 
 Will allow the worker to consume up to 5 tasks in parallel from the `default` queue.
@@ -295,7 +294,7 @@ type = "rabbitmq"
 ```
 
 ```shell
-./tork --config config.toml run worker
+./tork run worker
 ```
 
 Will allow the worker to consume up to 1 tasks in parallel from the `video` queue and up to 5 tasks from the `default` queue.

@@ -10,10 +10,10 @@ Tork can be configured by creating a `config.toml` file in the same directory fr
 
 Other well-known locations that Tork will look for config files are `~/tork/config.toml` and `/etc/tork/config.toml` in that order.
 
-Alternatively, you can specify the path to the config file by using the `--config` flag. e.g.:
+Alternatively, you can specify the path to the config file by using the `TORK_CONFIG` env var flag. e.g.:
 
 ```shell
-./tork --config myconfig.toml run standalone
+TORK_CONFIG=myconfig.toml ./tork run standalone
 ```
 
 If no configuration file is found, Tork will attempt to start using sensible defaults.
