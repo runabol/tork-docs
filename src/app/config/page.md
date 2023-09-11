@@ -77,7 +77,7 @@ endpoints.jobs = true   # turn on|off the /jobs endpoints
 endpoints.tasks = true  # turn on|off the /tasks endpoints
 endpoints.nodes = true  # turn on|off the /nodes endpoint
 endpoints.queues = true # turn on|off the /queues endpoint
-endpoints.stats = true  # turn on|off the /stats endpoint
+endpoints.metrics = true  # turn on|off the /metrics endpoint
 
 [worker]
 # The address of the Worker to listen

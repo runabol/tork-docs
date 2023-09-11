@@ -36,7 +36,7 @@ go get github.com/runabol/tork
 ```
 
 ```bash
-go: added github.com/runabol/tork v0.1.4
+go: added github.com/runabol/tork v0.1.5
 ```
 
 Create a `main.go` with the minimum bolierplate necessary to start Tork:
@@ -90,7 +90,7 @@ If all goes well, your should see something like this:
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.1.4 (d8c5ecd)
+ 0.1.5 (9fd136a)
 
 NAME:
    tork - a distributed workflow engine
@@ -110,7 +110,7 @@ GLOBAL OPTIONS:
 
 ## Custom endpoint
 
-Let's use the `ConfigureEngine` hook to register a new endpoint:
+Let's use the `RegisterEndpoint` hook to register a new endpoint:
 
 Update your `main.go` to look like this:
 
@@ -140,10 +140,7 @@ func main() {
 		return c.String(http.StatusOK, "Hello")
 	}
 
-	app.ConfigureEngine(func(eng *engine.Engine) error {
-		eng.RegisterEndpoint(http.MethodGet, "/myendpoint", handler)
-		return nil
-	})
+	app.RegisterEndpoint(http.MethodGet, "/myendpoint", handler)
 
 	if err := app.Run(); err != nil {
 		fmt.Println(err)
@@ -220,10 +217,7 @@ func main () {
 		}
 	}
 
-	app.ConfigureEngine(func(eng *engine.Engine) error {
-		eng.RegisterRequestMiddleware(mw)
-		return nil
-	})
+	app.RegisterRequestMiddleware(mw)
 
 	// code after
 
@@ -235,7 +229,7 @@ curl http://localhost:8000/health
 ```
 
 ```json
-{ "status": "UP", "version": "0.1.4 (d8c5ecd)" }
+{ "status": "UP", "version": "0.1.5 (9fd136a)" }
 ```
 
 And in the logs you should see something like this:
@@ -267,10 +261,7 @@ func main () {
 		}
 	}
 
-	app.ConfigureEngine(func(eng *engine.Engine) error {
-		eng.RegisterJobMiddleware(mw)
-		return nil
-	})
+	app.RegisterJobMiddleware(mw)
 
 	// code after
 
@@ -300,10 +291,7 @@ func main () {
 		}
 	}
 
-	app.ConfigureEngine(func(eng *engine.Engine) error {
-		eng.RegisterTaskMiddleware(mw)
-		return nil
-	})
+	app.RegisterTaskMiddleware(mw)
 
 	// code after
 
@@ -333,10 +321,7 @@ func main () {
 		}
 	}
 
-	app.ConfigureEngine(func(eng *engine.Engine) error {
-		eng.RegisterNodeMiddleware(mw)
-		return nil
-	})
+	app.RegisterNodeMiddleware(mw)
 
 	// code after
 
