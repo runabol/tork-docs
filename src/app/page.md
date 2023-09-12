@@ -27,6 +27,7 @@ title: Getting Started
 - No single point of failure
 - Task timeout
 - Full-text search
+- [Middleware](/customize#middleware)
 - [Expression Language](/tasks#expressions)
 - Conditional Tasks
 - [Parallel Task](/tasks#parallel-task)
