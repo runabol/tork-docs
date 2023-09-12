@@ -65,7 +65,7 @@ hearbeat = 1  # heartbeat queue consumers
 jobs = 1      # jobs queue consumers
 
 # cors middleware
-[coordinator.api.middleware.cors]
+[middleware.web.cors]
 enabled = false
 allow_origins = "*"
 allow_methods = "*"
@@ -73,16 +73,20 @@ allow_credentials = false
 expose_headers = "*"
 
 # basic auth middleware
-[coordinator.api.middleware.basicauth]
+[middleware.web.basicauth]
 enabled = false
 username = "tork"
-password = "" # if left blank will be auto-generated
-              # and printed to the logs on startup
+password = "" # if left the password will
+              # be auto-generated and
+              # printed to the logs
 
 # rate limiter middleware
-[coordinator.api.middleware.ratelimit]
+[middleware.web.ratelimit]
 enabled = false
 rps = 20        # requests per second per IP
+
+[middleware.job.redact]
+enabled = false
 
 [worker]
 address = "localhost:8001"

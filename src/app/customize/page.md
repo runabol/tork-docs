@@ -36,7 +36,7 @@ go get github.com/runabol/tork
 ```
 
 ```bash
-go: added github.com/runabol/tork v0.1.6
+go: added github.com/runabol/tork v0.1.7
 ```
 
 Create a `main.go` with the minimum bolierplate necessary to start Tork:
@@ -90,7 +90,7 @@ If all goes well, your should see something like this:
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.1.6 (b227772)
+ 0.1.7 (879a04a)
 
 NAME:
    tork - a distributed workflow engine
@@ -203,8 +203,8 @@ func main () {
 
 	// code before
 
-	mw := func(next request.HandlerFunc) request.HandlerFunc {
-		return func(c request.Context) error {
+	mw := func(next web.HandlerFunc) web.HandlerFunc {
+		return func(c web.Context) error {
 			before := time.Now()
 			// happens before the request is processed
 			next(c)
@@ -229,7 +229,7 @@ curl http://localhost:8000/health
 ```
 
 ```json
-{ "status": "UP", "version": "0.1.6 (b227772)" }
+{ "status": "UP", "version": "0.1.7 (879a04a)" }
 ```
 
 And in the logs you should see something like this:
@@ -335,6 +335,7 @@ There are several middleware functions that can be [enabled and configured](/con
 - CORS
 - Basic Auth
 - Rate Limit
+- Redact
 
 ## Additional examples
 

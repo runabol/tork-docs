@@ -120,7 +120,7 @@ You can set custom environment variables for a given task by using the `env` pro
 
 #### Secrets
 
-By convention, any environment variables which contain the keywords `SECRET`, `PASSWORD` or `ACCESS_KEY` in their names will have their values automatically redacted from logs as well as from API responses.
+By convention, any environment variables which contain the keywords `SECRET`, `PASSWORD` or `ACCESS_KEY` in their names will have their values automatically redacted from API responses when the [redact middleware](/config) is enabled.
 
 {% callout title="Warning!" %}
 Tork automatically redacts secrets printed to the log, but you should avoid printing secrets to the log intentionally.
