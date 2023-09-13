@@ -336,7 +336,7 @@ There are several middleware functions that can be [enabled and configured](/con
 - Basic Auth
 - Rate Limit
 - Redact
-- Logger
+- Request Logger
 
 ## Additional examples
 
