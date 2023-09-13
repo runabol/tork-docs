@@ -135,6 +135,12 @@ Task properties:
 
 - `name` - a human-readable name for the task
 - `image` (required) - the docker image to use to execute the task
+- `registry` - the auth details when using a private image registry
+  ```yaml
+  registry:
+    username: someuser
+    passwoed: secret
+  ```
 - `run` - the script to run on the container
 - `entrypoint` - Allows to override the image's `entrypoint`. default: `[sh, -c]`.
 - `cmd` - an alternative to using the `run` property when you want to use the `image`'s default `entrypoint`.
