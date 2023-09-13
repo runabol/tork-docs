@@ -20,7 +20,11 @@ If no configuration file is found, Tork will attempt to start using sensible def
 
 ---
 
-## Example Configuration File
+## Configuration File
+
+The following are all the configuration options supported by Tork.
+
+The values are the default values.
 
 ```toml
 [cli]
@@ -76,14 +80,18 @@ headers = "*"
 [middleware.web.basicauth]
 enabled = false
 username = "tork"
-password = "" # if left the password will
-              # be auto-generated and
-              # printed to the logs
+password = ""     # if left blank, it will auto-generate a password and print it to the logs on startup
 
 # rate limiter middleware
 [middleware.web.ratelimit]
 enabled = false
 rps = 20        # requests per second per IP
+
+# request logging
+[middleware.web.logger]
+enabled = true
+level = "DEBUG"        # TRACE|DEBUG|INFO|WARN|ERROR
+skip = ["GET /health"] # supports wildcards (*)
 
 [middleware.job.redact]
 enabled = false
