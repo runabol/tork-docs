@@ -225,6 +225,6 @@ vs.
 
 {% figure src="video-transcoding/aws_10_instances_transcode.png" /%}
 
-## Conslusion
+## Conclusion
 
 I'll probably want to experiment with different machine configurations to achieve more optimal results, but I'm generally happy with this quick and dirty test.
