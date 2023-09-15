@@ -17,6 +17,10 @@ export const navigation = [
     ],
   },
   {
+    title: 'Tutorials',
+    links: [{ title: 'Video Transcoding', href: '/video-transcoding' }],
+  },
+  {
     title: 'Advanced guides',
     links: [
       { title: 'Extend Tork', href: '/customize' },
