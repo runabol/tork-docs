@@ -130,6 +130,17 @@ Content-Type:text/yaml
 - `name` - a human-readable name for the job
 - `tasks` - the list of task to execute
 - `inputs` - input parameters allow you to specify data that the job expects to use during its runtime. Input values can be accessed by tasks by using a [template expression](https://pkg.go.dev/text/template), e.g. `{{ inputs.someParam }}`
+- `defaults` - allows to specify job-level defaults to all tasks in the job, if not otherwise specified. Example:
+
+```yaml
+defaults:
+  timeout: 5s # all tasks time out after 5s by default
+  retry:
+    limit: 3 # failing tasks are allowed to retry up to 3 times by default
+  limits:
+    cpus: .5 # tasks are allowed no more than half a CPU by default
+    memory: 10m # tasks are allowed no more than 10MB of RAM by default
+```
 
 Task properties:
 
@@ -175,6 +186,13 @@ Task properties:
     files:
       script.py: print("hello world")
   ```
+- `limits` - the amounts of resources alloted for the execution of the task. Example:
+
+```yaml
+limits:
+  cpus: .5 # task is allowed no more than half a CPU
+  memory: 10m # task is allowed no more than 10MB of RAM
+```
 
 **Example:**
 
