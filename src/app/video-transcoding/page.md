@@ -39,7 +39,7 @@ Software-wise we are going to use:
 - Tork
 - [Minio](https://min.io/) which is a self-hosted S3-like service to store our intermediate outputs and final transcoded video.
 
-- [Docker](https://www.docker.com/) we won't have to interact with Dockr directly, but Tork uses it in order to execute tasks.
+- [Docker](https://www.docker.com/) for the Tork Web UI as well as for Tork itself.
 
 ## The Workflow
 
