@@ -18,7 +18,10 @@ export const navigation = [
   },
   {
     title: 'Tutorials',
-    links: [{ title: 'Video Transcoding', href: '/video-transcoding' }],
+    links: [
+      { title: 'Video Transcoding', href: '/video-transcoding' },
+      { title: 'Resizing Images', href: '/resizing-images' },
+    ],
   },
   {
     title: 'Advanced guides',
