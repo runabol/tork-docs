@@ -18,7 +18,7 @@ title: Getting Started
 
 ## Features
 
-- [REST API](/rest)
+- [REST API](/rest-api)
 - Horizontally scalable
 - Task isolation - tasks are executed within a container to provide isolation, idempotency, and in order to enforce resource limits
 - Automatic recovery of tasks in the event of a worker crash
