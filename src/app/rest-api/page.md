@@ -159,14 +159,13 @@ Task properties:
 - `queue` - the name of the queue that the task should be routed to. See [queues](#queues).
 - `pre` - the list of tasks to execute prior to executing the actual task.
 - `post` - the list of tasks to execute post execution of the actual task.
-- `volumes` - a list of temporary volumes, created for the duration of the execution of the task. Useful for sharing state between the task
+- `mounts` - a list of mounts, created for the duration of the execution of the task. Useful for sharing state between the task
   and its `pre` and `post` tasks.
   ```yaml
-  volumes:
-    - /data1
-    - /data2
+  mounts:
+    - type: volume
+      target: /data1
   ```
-  **note**: if you get an `invalid mount config for type "bind": bind source path does not exist` error it's most likely due to the fact that the Docker daemon isn't allowed to mount volumes from your default `$TMPDIR`. Try using the `worker.temp_dir` config to explictly set it to another directory.
 - `networks` - Networks are the layer that allow task containers within the same node to communicate with each other. This could be useful when certain nodes are configured with long-running services which the task needs access to.
   ```yaml
   networks:

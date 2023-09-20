@@ -207,7 +207,7 @@ Each task can define a set of tasks that will be executed prior to its execution
 
 The `pre` and `post` tasks always execute on the same worker node which will execute the task itself and are considered to be an atomic part of the task. That is, a failure in any of the pre/post tasks is considered a failure of the entire task.
 
-Additionally, any `volumes` and/or `networks` defined on the primary task are also accessible to the `pre` and `post` tasks.
+Additionally, any `mounts` and/or `networks` defined on the primary task are also accessible to the `pre` and `post` tasks.
 
 Example:
 
@@ -216,8 +216,9 @@ Example:
   image: jrottenberg/ffmpeg:3.4-alpine
   run: |
     ffmpeg -i /tmp/input.ogv -t 5 /tmp/output.mp4
-  volumes:
-    - /tmp
+  mounts:
+    - type: volume
+      target: /tmp
   pre:
     - name: download the remote file
       image: alpine:3.18.3

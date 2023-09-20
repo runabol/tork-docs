@@ -37,12 +37,12 @@ We will also see how we can scale this process by using an [each](https://www.to
 
 ## Installing Tork
 
-1. Download [Tork](https://github.com/runabol/tork/releases/tag/v0.1.13).
+1. Download [Tork](https://github.com/runabol/tork/releases/tag/v0.1.14).
 
 2. Extract the binary to some directory. E.g.:
 
 ```shell
-tar xvzf default.release.tork_0.1.13_darwin_arm64.tgz
+tar xvzf default.release.tork_0.1.14_darwin_arm64.tgz
 ```
 
 3. Start Minio:
@@ -235,8 +235,9 @@ Here's the revised task:
   image: dpokidov/imagemagick:7.1.1-15-ubuntu
   env:
     EXT: '{{ tasks.fileExt }}'
-  volumes:
-    - /workdir
+  mounts:
+    - type: volume
+      target: /workdir
   run: convert "/workdir/source.$EXT" -resize 100x100 /workdir/100x100.jpg
   pre:
     - name: download the remote file
@@ -259,8 +260,9 @@ Let's use a `post` task to upload it to minio. Here is the revised task:
   image: dpokidov/imagemagick:7.1.1-15-ubuntu
   env:
     EXT: '{{ tasks.fileExt }}'
-  volumes:
-    - /workdir
+  mounts:
+    - type: volume
+      target: /workdir
   networks:
     - minio
   run: convert "/workdir/source.$EXT" -resize 100x100 /workdir/100x100.jpg
