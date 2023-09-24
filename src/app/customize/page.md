@@ -36,7 +36,7 @@ go get github.com/runabol/tork
 ```
 
 ```bash
-go: added github.com/runabol/tork v0.1.15
+go: added github.com/runabol/tork v0.1.16
 ```
 
 Create a `main.go` with the minimum bolierplate necessary to start Tork:
@@ -58,9 +58,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	app := cli.New()
-
-	if err := app.Run(); err != nil {
+	if err := cli.New().Run(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
@@ -90,7 +88,7 @@ If all goes well, your should see something like this:
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.1.15 (1f89ccf)
+ 0.1.16 (f9f7eff)
 
 NAME:
    tork - a distributed workflow engine
@@ -134,15 +132,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	app := cli.New()
-
 	handler := func(c middleware.Context) error {
 		return c.String(http.StatusOK, "Hello")
 	}
 
-	app.RegisterEndpoint(http.MethodGet, "/myendpoint", handler)
+	engine.RegisterEndpoint(http.MethodGet, "/myendpoint", handler)
 
-	if err := app.Run(); err != nil {
+	if err := cli.New().Run(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
@@ -217,7 +213,7 @@ func main () {
 		}
 	}
 
-	app.RegisterWebMiddleware(mw)
+	engine.RegisterWebMiddleware(mw)
 
 	// code after
 
@@ -229,7 +225,7 @@ curl http://localhost:8000/health
 ```
 
 ```json
-{ "status": "UP", "version": "0.1.15 (1f89ccf)" }
+{ "status": "UP", "version": "0.1.16 (f9f7eff)" }
 ```
 
 And in the logs you should see something like this:
@@ -261,7 +257,7 @@ func main () {
 		}
 	}
 
-	app.RegisterJobMiddleware(mw)
+	engine.RegisterJobMiddleware(mw)
 
 	// code after
 
@@ -291,7 +287,7 @@ func main () {
 		}
 	}
 
-	app.RegisterTaskMiddleware(mw)
+	engine.RegisterTaskMiddleware(mw)
 
 	// code after
 
@@ -321,7 +317,7 @@ func main () {
 		}
 	}
 
-	app.RegisterNodeMiddleware(mw)
+	engine.RegisterNodeMiddleware(mw)
 
 	// code after
 

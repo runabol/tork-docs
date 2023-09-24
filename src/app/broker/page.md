@@ -47,7 +47,7 @@ func main() {
 }
 ```
 
-Update your `main` function to make use of the `mq.RegisterProvider` hook:
+Update your `main` function to make use of the `engine.RegisterBrokerProvider` hook:
 
 ```golang
 func main() {
@@ -57,7 +57,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	mq.RegisterProvider("mymq", func() (mq.Broker, error) {
+	engine.RegisterBrokerProvider("mymq", func() (mq.Broker, error) {
 		// example of using config
         // url := conf.String("broker.mymq.url")
 		return nil, errors.Errorf("not implementd yet")

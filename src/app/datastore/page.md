@@ -47,7 +47,7 @@ func main() {
 }
 ```
 
-Update your `main` function to make use of the `datastore.RegisterProvider` hook:
+Update your `main` function to make use of the `engine.RegisterDatastoreProvider` hook:
 
 ```golang
 func main() {
@@ -56,7 +56,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	datastore.RegisterProvider("mydb", func() (datastore.Datastore, error) {
+	engine.RegisterDatastoreProvider("mydb", func() (datastore.Datastore, error) {
         // example of using config
         // url := conf.String("datastore.mydb.url")
 		return nil, errors.New("not implemented yet")
