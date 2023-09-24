@@ -29,6 +29,7 @@ export const navigation = [
       { title: 'Extend Tork', href: '/customize' },
       { title: 'Datastore', href: '/datastore' },
       { title: 'Broker', href: '/broker' },
+      { title: 'Mounter', href: '/mounter' },
     ],
   },
   {
