@@ -14,8 +14,8 @@ The `Mounter` component is responsible for mounting and unmounting task-defined 
 
 There are two types of `Mounter` implementations that are supported out of the box with Tork:
 
-1. `volume` - which mounts and unmounts docker volumes for the task.
-2. `bind` - which binds a host folder to a container folder.
+1. `volume` - which mounts and unmounts docker volumes for a given task.
+2. `bind` - which binds a host folder to a container folder for a given task.
 
 ## Registering a custom Mounter
 
