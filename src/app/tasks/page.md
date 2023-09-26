@@ -98,7 +98,7 @@ There are a number of [built-in](https://expr.medv.io/docs/Language-Definition#b
 - name: print the length of a string
   image: ubuntu:mantic
   env:
-    LENGTH: '{{len("hello world")}}'
+    LENGTH: '{{ len("hello world") }}'
   run: |
     echo "The length of the string is: $LENGTH"
 ```
@@ -175,8 +175,8 @@ Example:
     task:
       image: ubuntu:mantic
       env:
-        ITEM: '{{item.value}}'
-        INDEX: '{{item.index}}'
+        ITEM: '{{ item.value }}'
+        INDEX: '{{ item.index }}'
       run: echo -n HELLO $ITEM at $INDEX
 ```
 
