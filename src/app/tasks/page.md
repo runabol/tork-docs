@@ -92,7 +92,7 @@ tasks:
 
 ### Functions
 
-There are a number of [built-in](https://expr.medv.io/docs/Language-Definition#built-in-functions) and [additional](https://github.com/runabol/tork/blob/main/eval/funcs.go) functions that can be used in expressions.
+There are a number of [built-in](https://expr.medv.io/docs/Language-Definition#built-in-functions) and [additional](https://github.com/runabol/tork/blob/main/internal/eval/funcs.go) functions that can be used in expressions.
 
 ```yaml
 - name: print the length of a string
