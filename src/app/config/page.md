@@ -109,4 +109,12 @@ memory = "" # e.g. 100m
 allowed = false
 allowlist = []  # supports wildcards (*)
 denylist = []   # supports wildcards (*)
+
+[runtime]
+type = "docker"
+
+[runtime.shell]
+cmd = ["bash", "-c"] # the shell command used to execute the run script
+uid = ""             # set the uid for the the task process (recommended)
+gid = ""             # set the gid for the the task process (recommended)
 ```

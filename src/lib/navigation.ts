@@ -30,6 +30,7 @@ export const navigation = [
       { title: 'Datastore', href: '/datastore' },
       { title: 'Broker', href: '/broker' },
       { title: 'Mounter', href: '/mounter' },
+      { title: 'Runtime', href: '/runtime' },
     ],
   },
   {
