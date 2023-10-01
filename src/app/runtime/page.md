@@ -45,3 +45,45 @@ cmd = ["bash", "-c"] # the shell command used to execute the run script
 uid = ""             # set the uid for the the task process (recommended)
 gid = ""             # set the gid for the the task process (recommended)
 ```
+
+## Mounts
+
+The `Mounter` component is responsible for mounting and unmounting task-defined `mounts` types for a given runtime.
+
+### Docker Mounts
+
+There are two types of `Mounter` implementations that are supported out of the box when using the default Docker-based runtime:
+
+1. `volume` - mounts and unmounts docker volumes for a given task.
+2. `bind` - binds a host folder to a container folder for a given task.
+
+### Registering a custom Mounter
+
+To register a custom `Mounter` implementation for a given runtime, first follow the instructions on the [Customize Tork](/customize) guide to get Tork running in embedded mode.
+
+Update your `main` function to make use of the `engine.RegisterMounter` hook:
+
+```golang
+func main() {
+	if err := conf.LoadConfig(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	var mounter runtime.Mounter // implemented this interface
+
+	engine.RegisterMounter(runtime.Docker, "mymounter", mounter)
+
+	if err := cli.New().Run(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+```
+
+Optional: You can add custom configuration to the [config file](/config) if you need these for your mounter implementation:
+
+```toml
+[mounter.mymounter]
+# configs
+```
