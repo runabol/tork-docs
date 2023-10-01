@@ -33,7 +33,7 @@ type = "docker" # this is already the default
 This runtime environment is only supported on unix/linux systems. When using the Shell runtime, tasks execute as a forked process on the host machine that is running Tork.
 
 {% callout title="Warning!" %}
-This runtime environment should be used with **extreme caution** as input jobs can execute arbitrary code on the host machine and wreak havoc. It is highly recommended to set the `uid` and `gid` config parameters on the host worker in order to limit the process permissions.
+This runtime environment should be used with _extreme caution_ as input jobs can execute arbitrary code on the host machine and wreak havoc. It is highly recommended to set the `uid` and `gid` config parameters on the host worker in order to limit the process permissions.
 {% /callout %}
 
 ```toml
