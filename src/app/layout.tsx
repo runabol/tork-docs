@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { Layout } from '@/components/Layout'
 
 import '@/styles/tailwind.css'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -48,6 +49,7 @@ export default function RootLayout({
       <body className="flex min-h-full bg-white dark:bg-slate-900">
         <Layout>{children}</Layout>
         <Analytics />
+        <GoogleAnalytics />
       </body>
     </html>
   )
