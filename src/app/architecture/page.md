@@ -31,7 +31,7 @@ A Tork installation generally consists of the following components:
 
 - **Coordinator**: The Coordinator is responsible for keeping track of jobs, dishing out work to be done by Worker nodes, handling task failures, retries and other job-level details. Unlike Worker nodes, the Coordinator does not execute actual work but delegate all task execution activities to Worker instances. Coordinators are stateless and leaderless.
 
-- **Worker**: Responsible for executing tasks by means of a runtime (typically Docker).
+- **Worker**: Responsible for executing tasks by means of a [runtime](/runtime) (typically Docker).
 
 - **Broker**: Responsible for routing tasks between the Coordinator and Worker nodes.
 

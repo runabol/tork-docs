@@ -19,7 +19,7 @@ A Task is the basic unit of execution in Tork. Tasks are executed in the order t
     echo -n hello world > $TORK_OUTPUT
 ```
 
-Tasks always execute within a Docker container. The type of container (or image) is specified using the `image` property.
+When using the default Docker runtime, tasks execute within a Docker container. The type of container (or image) is specified using the `image` property.
 
 Tasks can use any of the publicly available [docker images](https://hub.docker.com/search), and support for private repositories coming in the near future.
 

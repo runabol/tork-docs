@@ -145,7 +145,7 @@ defaults:
 Task properties:
 
 - `name` - a human-readable name for the task
-- `image` (required) - the docker image to use to execute the task
+- `image` the docker image to use to execute the task when using the Docker (default) runtime.
 - `registry` - the auth details when using a private image registry
   ```yaml
   registry:
