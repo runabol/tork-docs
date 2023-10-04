@@ -42,6 +42,7 @@ type = "inmemory" # inmemory | rabbitmq
 
 [broker.rabbitmq]
 url = "amqp://guest:guest@localhost:5672/"
+consumer.timeout = "30m" # see https://www.rabbitmq.com/consumers.html#acknowledgement-timeout
 
 [datastore]
 type = "inmemory" # inmemory | postgres
