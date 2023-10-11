@@ -142,6 +142,15 @@ defaults:
     memory: 10m # tasks are allowed no more than 10MB of RAM by default
 ```
 
+- `webhooks` - allow to specify webhooks to be called when on job `status` changes.
+
+```yaml
+webhooks:
+  - url: http://example.com/my/webhook # POST (required)
+    headers: # optional headers to send when calling the webhook endpoint
+      my-header: somevalue
+```
+
 Task properties:
 
 - `name` - a human-readable name for the task

@@ -36,7 +36,7 @@ go get github.com/runabol/tork
 ```
 
 ```bash
-go: added github.com/runabol/tork v0.1.19
+go: added github.com/runabol/tork v0.1.20
 ```
 
 Create a `main.go` with the minimum bolierplate necessary to start Tork:
@@ -88,7 +88,7 @@ If all goes well, your should see something like this:
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.1.19 (14b275c)
+ 0.1.20 (9adc6c3)
 
 NAME:
    tork - a distributed workflow engine
@@ -225,7 +225,7 @@ curl http://localhost:8000/health
 ```
 
 ```json
-{ "status": "UP", "version": "0.1.19 (14b275c)" }
+{ "status": "UP", "version": "0.1.20 (9adc6c3)" }
 ```
 
 And in the logs you should see something like this:
@@ -333,6 +333,7 @@ There are several middleware functions that can be [enabled and configured](/con
 - Rate Limit
 - Redact
 - Request Logger
+- Webhook
 
 ## Additional examples
 
