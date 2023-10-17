@@ -36,7 +36,7 @@ go get github.com/runabol/tork
 ```
 
 ```bash
-go: added github.com/runabol/tork v0.1.20
+go: added github.com/runabol/tork v0.1.22
 ```
 
 Create a `main.go` with the minimum bolierplate necessary to start Tork:
@@ -88,7 +88,7 @@ If all goes well, your should see something like this:
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.1.20 (9adc6c3)
+ 0.1.22 (9f5e6a5)
 
 NAME:
    tork - a distributed workflow engine
@@ -225,7 +225,7 @@ curl http://localhost:8000/health
 ```
 
 ```json
-{ "status": "UP", "version": "0.1.20 (9adc6c3)" }
+{ "status": "UP", "version": "0.1.22 (9f5e6a5)" }
 ```
 
 And in the logs you should see something like this:
@@ -333,7 +333,22 @@ There are several middleware functions that can be [enabled and configured](/con
 - Rate Limit
 - Redact
 - Request Logger
-- Webhook
+- Webhook - responsible for executing job webhooks.
+  Example of job webhooks section:
+
+```yaml
+webhooks:
+  - url: http://example.com/my/webhook # POST (required)
+    headers: # optional headers to send when calling the webhook endpoint
+      my-header: somevalue
+```
+
+- Host Env - allows to inject a list of env vars from the host to any tasks running on that host. Supports aliases using `:`. Example config:
+
+```yaml
+[middleware.task.hostenv]
+vars = ["SOME_ENV_VAR","OTHER_ENV_VAR:VAR_NAME_IN_CONTAINER"]
+```
 
 ## Additional examples
 
