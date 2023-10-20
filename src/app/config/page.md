@@ -43,6 +43,7 @@ type = "inmemory" # inmemory | rabbitmq
 [broker.rabbitmq]
 url = "amqp://guest:guest@localhost:5672/"
 consumer.timeout = "30m" # see https://www.rabbitmq.com/consumers.html#acknowledgement-timeout
+management.url = "" # default: http://{rabbit_host}:15672/
 
 [datastore]
 type = "inmemory" # inmemory | postgres
@@ -124,3 +125,7 @@ cmd = ["bash", "-c"] # the shell command used to execute the run script
 uid = ""             # set the uid for the the task process (recommended)
 gid = ""             # set the gid for the the task process (recommended)
 ```
+
+## Environment Variables
+
+It is possible to override/specify any configuration property using an environment variable with the following format: `TORK_` + `CONFIG_PROPERTY`, replacing dots with underscores. For example, `TORK_LOGGING_LEVEL=warn`.

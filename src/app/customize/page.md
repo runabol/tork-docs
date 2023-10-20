@@ -36,7 +36,7 @@ go get github.com/runabol/tork
 ```
 
 ```bash
-go: added github.com/runabol/tork v0.1.22
+go: added github.com/runabol/tork v0.1.27
 ```
 
 Create a `main.go` with the minimum bolierplate necessary to start Tork:
@@ -88,7 +88,7 @@ If all goes well, your should see something like this:
   |   |  |       ||   |  | ||    _  |
   |___|  |_______||___|  |_||___| |_|
 
- 0.1.22 (9f5e6a5)
+ 0.1.27 (821f280)
 
 NAME:
    tork - a distributed workflow engine
@@ -225,7 +225,7 @@ curl http://localhost:8000/health
 ```
 
 ```json
-{ "status": "UP", "version": "0.1.22 (9f5e6a5)" }
+{ "status": "UP", "version": "0.1.27 (821f280)" }
 ```
 
 And in the logs you should see something like this:
