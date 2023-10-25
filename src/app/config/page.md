@@ -112,6 +112,9 @@ tempdir = "/tmp"
 cpus = ""   # supports fractions
 memory = "" # e.g. 100m
 
+[worker.queues]
+default = 1 # numbers of concurrent subscribers
+
 [worker.mounts.bind]
 allowed = false
 allowlist = []  # supports wildcards (*)
