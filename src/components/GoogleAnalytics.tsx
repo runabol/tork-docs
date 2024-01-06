@@ -2,7 +2,7 @@ import Script from 'next/script'
 
 export default function GoogleAnalytics() {
   return (
-    <div className="container">
+    <>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-W0E82VD0PN" />
       <Script id="google-analytics">
         {`
@@ -13,6 +13,6 @@ export default function GoogleAnalytics() {
           gtag('config', 'G-W0E82VD0PN');
         `}
       </Script>
-    </div>
+    </>
   )
 }
