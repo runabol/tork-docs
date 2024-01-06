@@ -37,12 +37,12 @@ We will also see how we can scale this process by using an [each](https://www.to
 
 ## Installing Tork
 
-1. Download [Tork](https://github.com/runabol/tork/releases/tag/v0.1.27).
+1. Download [Tork](https://github.com/runabol/tork/releases/tag/v0.1.62).
 
 2. Extract the binary to some directory. E.g.:
 
 ```shell
-tar xvzf default.release.tork_0.1.27_darwin_arm64.tgz
+tar xvzf tork_0.1.62_darwin_arm64.tgz
 ```
 
 3. Start Minio:

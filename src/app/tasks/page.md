@@ -197,6 +197,19 @@ A task can start another job. When a sub-job completes or fails it marks its par
         run: echo end of sub-job
 ```
 
+Sub jobs may also be spawned in `detached` mode, meaning that the parent/spawning job will not wait for their completion but would simply "fire and forget" these jobs. Example:
+
+```yaml
+- name: a task that starts a detached job
+  subjob:
+    name: my sub job
+    detached: true
+    tasks:
+      - name: hello sub task
+        image: ubuntu:mantic
+        run: echo some work
+```
+
 ## Pre/Post Tasks
 
 Worker nodes are stateless by design. Which means that no state is left on the worker node after a task terminates. Moreover tasks can execute on any of the available worker so there's no guarantee that a task that is scheduled to execute will execute on the same node that the task just prior to it executed.

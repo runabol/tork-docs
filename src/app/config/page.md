@@ -42,7 +42,7 @@ type = "inmemory" # inmemory | rabbitmq
 
 [broker.rabbitmq]
 url = "amqp://guest:guest@localhost:5672/"
-consumer.timeout = "30m" # see https://www.rabbitmq.com/consumers.html#acknowledgement-timeout
+consumer.timeout = "30m"
 management.url = "" # default: http://{rabbit_host}:15672/
 
 [datastore]
@@ -53,6 +53,7 @@ dsn = "host=localhost user=tork password=tork dbname=tork port=5432 sslmode=disa
 
 [coordinator]
 address = "localhost:8000"
+name = "Coordinator"
 
 [coordinator.api]
 endpoints.health = true  # turn on|off the /health endpoint
@@ -67,7 +68,7 @@ completed = 1 # completed queue consumers
 error = 1     # error queue consumers
 pending = 1   # pending queue consumers
 started = 1   # started queue consumers
-hearbeat = 1  # heartbeat queue consumers
+heartbeat = 1 # heartbeat queue consumers
 jobs = 1      # jobs queue consumers
 
 # cors middleware
@@ -105,28 +106,34 @@ vars = [
 
 [worker]
 address = "localhost:8001"
-tempdir = "/tmp"
-
-# default task limits
-[worker.limits]
-cpus = ""   # supports fractions
-memory = "" # e.g. 100m
+name = "Worker"
 
 [worker.queues]
 default = 1 # numbers of concurrent subscribers
 
-[worker.mounts.bind]
+# default task limits
+[worker.limits]
+cpus = ""    # supports fractions
+memory = ""  # e.g. 100m
+timeout = "" # e.g. 3h
+
+
+[mounts.bind]
 allowed = false
-allowlist = []  # supports wildcards (*)
-denylist = []   # supports wildcards (*)
+
+[mounts.temp]
+dir = "/tmp"
 
 [runtime]
-type = "docker"
+type = "docker" # docker | shell
 
 [runtime.shell]
 cmd = ["bash", "-c"] # the shell command used to execute the run script
 uid = ""             # set the uid for the the task process (recommended)
 gid = ""             # set the gid for the the task process (recommended)
+
+[runtime.docker]
+config = ""
 ```
 
 ## Environment Variables
