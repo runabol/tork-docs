@@ -58,10 +58,10 @@ For the source video, I had a surpisingly hard time finding quality (HD and abov
 
 To get a baseline time-wise let's run the job on a single machine - the slightly beefier 16GB machine.
 
-1. Download the Linux [Tork binary](https://github.com/runabol/tork/releases/tag/v0.1.62).
+1. Download the Linux [Tork binary](https://github.com/runabol/tork/releases/tag/v0.1.66).
 
 ```shell
-wget https://github.com/runabol/tork/releases/download/v0.1.62/tork_0.1.62_linux_amd64.tgz -O tork.tgz
+wget https://github.com/runabol/tork/releases/download/v0.1.66/tork_0.1.66_linux_amd64.tgz -O tork.tgz
 ```
 
 2. Extract the binary to some directory. In my case it's `~/tork/`.
