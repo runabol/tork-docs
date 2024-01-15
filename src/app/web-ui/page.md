@@ -32,6 +32,10 @@ View individual task details
 
 {% figure src="webui/task.png" /%}
 
+View task logs
+
+{% figure src="webui/task-logs.png" /%}
+
 View node status
 
 {% figure src="webui/nodes.png" /%}
