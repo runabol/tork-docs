@@ -8,7 +8,7 @@ nextjs:
 
 Download and install Tork quickly with the steps described here.
 
-{% cta href="https://github.com/runabol/tork/releases/tag/v0.1.66" target="_blank"  %} Download (0.1.66) {% /cta %}
+{% cta href="https://github.com/runabol/tork/releases/latest" target="_blank"  %} Download (Latest) {% /cta %}
 
 ---
 

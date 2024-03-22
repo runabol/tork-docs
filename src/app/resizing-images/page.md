@@ -37,7 +37,7 @@ We will also see how we can scale this process by using an [each](https://www.to
 
 ## Installing Tork
 
-1. Download [Tork](https://github.com/runabol/tork/releases/tag/v0.1.66).
+1. Download [Tork](https://github.com/runabol/tork/releases/latest).
 
 2. Extract the binary to some directory. E.g.:
 
