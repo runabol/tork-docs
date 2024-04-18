@@ -212,7 +212,7 @@ curl -X POST "http://localhost:8000/jobs" \
 name: sample job
 tasks:
   - name: sample task
-    image: ubuntu:mantic,
+    image: ubuntu:mantic
     run: echo hello world
 '
 ```
