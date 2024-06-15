@@ -33,10 +33,7 @@ export const navigation = [
     ],
   },
   {
-    title: 'API reference',
-    links: [
-      { title: 'Health', href: '/rest-api#health-check' },
-      { title: 'Jobs', href: '/rest-api#list-jobs' },
-    ],
+    title: 'Reference',
+    links: [{ title: 'API', href: '/rest-api' }],
   },
 ]

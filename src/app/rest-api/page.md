@@ -203,3 +203,77 @@ Failure:
   "message": "job is COMPLETED and can not be restarted"
 }
 ```
+
+## List nodes
+
+Returns a list of all active nodes in the cluster.
+
+**Path:**
+
+```shell
+GET /nodes
+```
+
+**Response:**
+
+```json
+[
+  {
+    "id": "V2CjY4HYEaUCtTZziuJh6M",
+    "name": "Coordinator",
+    "startedAt": "2024-06-15T19:51:51.111662-04:00",
+    "cpuPercent": 17.977528051675314,
+    "lastHeartbeatAt": "2024-06-15T23:51:51.226284Z",
+    "status": "UP",
+    "hostname": "some-host-1",
+    "version": "0.1.87"
+  },
+  {
+    "id": "2C2LtZRhktaieM768LQpbP",
+    "name": "Worker",
+    "startedAt": "2024-06-15T23:51:50.995903Z",
+    "cpuPercent": 9.952276537355232,
+    "lastHeartbeatAt": "2024-06-15T23:51:51.135511Z",
+    "queue": "x-2C2LtZRhktaieM768LQpbP",
+    "status": "UP",
+    "hostname": "some-host-2",
+    "version": "0.1.87"
+  }
+]
+```
+
+## List queues
+
+Returns a list of all queues used by the [broker](/broker).
+
+**Path:**
+
+```shell
+GET /nodes
+```
+
+**Response:**
+
+```json
+[
+  {
+    "name": "default",
+    "size": 12,
+    "subscribers": 3,
+    "unacked": 3
+  },
+  {
+    "name": "jobs",
+    "size": 0,
+    "subscribers": 1,
+    "unacked": 0
+  },
+  {
+    "name": "logs",
+    "size": 0,
+    "subscribers": 1,
+    "unacked": 0
+  },
+  ...
+]
+```
