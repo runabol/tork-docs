@@ -25,6 +25,77 @@ Tasks can use any of the publicly available [docker images](https://hub.docker.c
 
 The work to be done in the container is specified in the `run` property.
 
+## Image
+
+When using the default Docker [runtime](/runtime) `image`, spcifies the Docker image to use for the task.
+
+You can use images from any publicly available registries.
+
+```yaml
+- name: say hello
+  var: task1
+  # uses Docker hub's ubuntu image
+  image: ubuntu:mantic
+  run: |
+    echo -n hello world > $TORK_OUTPUT
+```
+
+### Private registries
+
+You can also use private docker registries by using the `registry` property.
+
+```yaml
+- name: populate a variable
+  image: myregistry.com/my_image:latest
+  registry:
+    username: user
+    password: mypassword
+  run: |
+    echo "do work"
+```
+
+Avoid having your registry credentials in the clear. As an alternative, you can create a Docker config file on your Tork host with the necessary credentials:
+
+```json
+{
+  "auths": {
+    "myregistry.com": {
+      "auth": "base64encodedusername:base64encodedpassword"
+    }
+  }
+}
+```
+
+And then pass the path to the config file as a parameter to the Tork worker using the `TORK_RUNTIME_DOCKER_CONFIG` environment variable.
+
+## Queue
+
+[Queues](/installation#queues) are the primary mechanism for routing tasks in Tork.
+
+Tasks are always routed to a queue. When not specified, tasks are routed to the `default` queue.
+
+Suppose you have a task that is very CPU heavy. But since large machines are typically more expensive than smaller machines you'd like to route only specific tasks to this queue, while sending the rest of your workload to the `default` queue.
+
+To solve for this, you create a new pool of Tork workers and have them subscribe to the arbitrarily named `highcpu` queue. Then in your job definitions, you send all "heavy" tasks to that queue.
+
+```yaml
+name: my job
+tasks:
+  - name: easy task
+    queue: default # does not have to be specified
+    image: ubuntu:mantic
+    run: |
+      echo "do some light lifting"
+
+  - name: say hello
+    # will route traffic to Tork workers that are subscribed
+    # to the 'highcpu' queue.
+    queue: highcpu
+    image: ubuntu:mantic
+    run: |
+      echo "do some heavy lifting"
+```
+
 ## Output
 
 Tasks may produce output by directing their output to the file specified in the `$TORK_OUTPUT` environment variable and specifying the key to store the task's output in the job's context using the `var` property.
@@ -125,7 +196,7 @@ tasks:
       API_KEY: '{{secrets.api_key}}'
 ```
 
-## Functions
+### Functions
 
 There are a number of [built-in](https://expr.medv.io/docs/Language-Definition#built-in-functions) and [additional](https://github.com/runabol/tork/blob/main/internal/eval/funcs.go) functions that can be used in expressions.
 
@@ -153,6 +224,21 @@ You can set custom environment variables for a given task by using the `env` pro
     echo $OUTRO
 ```
 
+Environment variables can also be populated using [expressions](#expressions).
+
+```yaml
+name: example job
+inputs:
+  message: hello world
+tasks:
+  - name: say something
+    image: ubuntu:mantic
+    env:
+      MESSAGE: '{{ inputs.message }}'
+    run: |
+      echo $MESSAGE
+```
+
 ## Secrets
 
 Sensitive values can be specified in the job's `secrets` block so they can be auto-redacted from API responses.
@@ -176,20 +262,23 @@ tasks:
 Tork automatically redacts secrets printed to the log, but you should avoid printing secrets to the log intentionally.
 {% /callout %}
 
-## Limits
+## Files
 
-By default, a task has no resource constraints and can use as much of a given resource as the host’s kernel scheduler allows.
-
-For more fine-grained control, default limits can be overridden at an individual task level:
+Files is a convenient means to create arbitrary files in the task's working directory.
 
 ```yaml
-- name: some task
-  image: alpine:3.18.3
+- name: Get the post
+  image: python:3
+  files:
+    script.py: |
+      import requests
+      url = "https://jsonplaceholder.typicode.com/posts/1"
+      response = requests.get(url)
+      data = response.json()
+      print(data['title'])
   run: |
-    echo "do some work"
-  limits:
-    cpus: .5
-    memory: 10m
+    pip install requests
+    python script.py > $TORK_OUTPUT
 ```
 
 ## Parallel Task
@@ -356,4 +445,20 @@ tasks:
   - name: my first task
     image: alpine:3.18.3
     run: sleep 3
+```
+
+## Limits
+
+By default, a task has no resource constraints and can use as much of a given resource as the host’s kernel scheduler allows.
+
+For more fine-grained control, default limits can be overridden at an individual task level:
+
+```yaml
+- name: some task
+  image: alpine:3.18.3
+  run: |
+    echo "do some work"
+  limits:
+    cpus: .5
+    memory: 10m
 ```
