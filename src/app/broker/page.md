@@ -19,7 +19,7 @@ There are two types of `Broker` implementations that are supported out of the bo
 
 ## Registering a custom Broker
 
-To register a custom `Broker` implementation follow the instructions on the [Customize Tork](/customize) guide to get Tork running in embedded mode.
+To register a custom `Broker` implementation follow the instructions on the [Extending Tork](/extend) guide to get Tork running in embedded mode.
 
 Update your `main` function to make use of the `engine.RegisterBrokerProvider` hook:
 

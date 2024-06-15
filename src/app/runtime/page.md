@@ -60,7 +60,7 @@ There are several types of `Mounter` implementations that are supported out of t
 
 ### Registering a custom Mounter
 
-To register a custom `Mounter` implementation for a given runtime, first follow the instructions on the [Customize Tork](/customize) guide to get Tork running in embedded mode.
+To register a custom `Mounter` implementation for a given runtime, first follow the instructions on the [Extending Tork](/extend) guide to get Tork running in embedded mode.
 
 Update your `main` function to make use of the `engine.RegisterMounter` hook:
 

@@ -19,7 +19,7 @@ There are two types of `Datastore` implementations that are supported out of the
 
 ## Registering a custom Datastore
 
-To register a custom `Datastore` implementation follow the instructions on the [Customize Tork](/customize) guide to get Tork running in embedded mode.
+To register a custom `Datastore` implementation follow the instructions on the [Extending Tork](/extend) guide to get Tork running in embedded mode.
 
 Update your `main` function to make use of the `engine.RegisterDatastoreProvider` hook:
 
