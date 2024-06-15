@@ -71,3 +71,59 @@ tasks:
     run: |
       ffmpeg -i $SOURCE_URL /tmp/output.mp4
 ```
+
+## Secrets
+
+Sensitive values can be specified in the `secrets` block so they can be auto-redacted from API responses.
+
+```yaml
+name: my job
+secrets:
+  api_key: 1111-1111-1111-1111
+tasks:
+  - name: my task
+    queue: default
+    image: alpine:latest
+    run: |
+      curl -X POST -H "API_KEY: $API_KEY" http://example.com
+    env:
+      API_KEY: '{{secrets.api_key}}' # use the 'secrets' namespace to inject a secret
+```
+
+## Defaults
+
+Jobs may specify default values for all their tasks. All properties are optional.
+
+```yaml
+name: my job
+defaults:
+  retry:
+    limit: 2 # a task will retry up to 2 times in case of a failure
+  limits: # resource limits imposed on a task
+    cpus: 1 # 1 CPU limit
+    memory: 500m # 500MB of RAM limit
+  timeout: 10m # a task will automatically fail if not completed within 10 minutes
+  queue: highcpu # tasks will be routed to the highcpu queue by default
+  priority: 3 # values between 0-9. Higher numbers mean higher priority
+tasks:
+  - name: my task
+    queue: default # override the job defaults
+    image: alpine:latest
+    run: |
+      echo hello world
+```
+
+## Auto Delete
+
+Jobs may specify a period of retention past their completion timestamp, after which they will be automatically deleted. Cancelled or failed jobs will not be automatically deleted.
+
+```yaml
+name: my job
+autoDelete:
+  after: 6h # job will be deleted 6 hours after its completion.
+tasks:
+  - name: my task
+    image: alpine:latest
+    run: |
+      echo hello world
+```
