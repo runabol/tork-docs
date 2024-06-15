@@ -9,15 +9,7 @@ const nextConfig = {
   webpack(config) {
     config.module.rules.unshift({
       test: /\.md$/,
-      use: [
-        createLoader(function (source) {
-          return (
-            source + '\nexport const metadata = frontmatter.nextjs?.metadata;'
-          )
-        }),
-      ],
     })
-
     return config
   },
 }
