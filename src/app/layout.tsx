@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     default: 'Tork - Open Source Workflow Engine',
   },
   description:
-    'Creating workflows shouldn&apos;t be complicated or restricted to engineers; it should be available to everyone in the language they feel most comfortable with.',
+    'Tork is an open-source workflow engine designed for scale with simplicity in mind.',
 }
 
 export default function RootLayout({

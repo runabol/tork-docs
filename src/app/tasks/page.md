@@ -462,3 +462,57 @@ For more fine-grained control, default limits can be overridden at an individual
     cpus: .5
     memory: 10m
 ```
+
+## Timeout
+
+Tasks can specify a maximum time of execution using the `timeout` property.
+
+```yaml
+- name: some task
+  image: alpine:3.18.3
+  # this task will automatically fail
+  # after 5 seconds if not completed
+  timeout: 5s
+  run: |
+    sleep 30
+```
+
+## GPUs
+
+When using the default Docker runtime, you can use the `gpus` property to access the host's GPU resources.
+
+This property maps to Docker's [`--gpus`](https://docs.docker.com/config/containers/resource_constraints/#expose-gpus-for-use) flag.
+
+```yaml
+- name: some task
+  image: alpine:3.18.3
+  gpus: all
+  run: |
+    echo "do some gpu based work"
+```
+
+## Tags
+
+Tasks may specify an arbitrary list of metadata tags.
+
+```yaml
+- name: some task
+  image: alpine:3.18.3
+  tags:
+    - some-tag
+    - another-tag
+  run: |
+    echo "do some work"
+```
+
+## Workdir
+
+You can use the `workdir` property to set the task's default working directory.
+
+```yaml
+- name: some task
+  image: alpine:3.18.3
+  workdir: /workspace
+  run: |
+    echo "do some work"
+```
