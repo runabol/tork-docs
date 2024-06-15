@@ -26,7 +26,7 @@
     "fast-glob": "^3.2.12",
     "flexsearch": "^0.7.31",
     "js-yaml": "^4.1.0",
-    "next": "13.4.16",
+    "next": "14.2.4",
     "prism-react-renderer": "^2.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "eslint": "8.45.0",
-    "eslint-config-next": "13.4.16",
+    "eslint-config-next": "14.2.4",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.5.2",
     "sharp": "^0.32.0"
