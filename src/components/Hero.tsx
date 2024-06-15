@@ -147,9 +147,8 @@ export function Hero() {
                 Workflow Automation. Simplified.
               </p>
               <p className="mt-3 text-2xl tracking-tight text-slate-400">
-                Creating workflows shouldn&apos;t be complicated or restricted
-                to engineers; it should be available to everyone in the language
-                they feel most comfortable with.
+                Tork is an open-source workflow engine designed for scale and
+                with simplicity in mind.
               </p>
               <div className="mt-8 flex gap-4 md:justify-center lg:justify-start">
                 <Button href="/#quick-start">Quick Start</Button>
