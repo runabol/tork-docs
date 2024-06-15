@@ -24,9 +24,9 @@ export const navigation = [
     ],
   },
   {
-    title: 'Advanced guides',
+    title: 'Extending Tork',
     links: [
-      { title: 'Extend Tork', href: '/customize' },
+      { title: 'Intro', href: '/customize' },
       { title: 'Datastore', href: '/datastore' },
       { title: 'Broker', href: '/broker' },
       { title: 'Runtime', href: '/runtime' },

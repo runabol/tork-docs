@@ -1,9 +1,9 @@
 ---
-title: Extend Tork
+title: Intro
 nextjs:
   metadata:
-    title: Extend Tork
-    description: Extend and customize Tork
+    title: Extending Tork
+    description: How to extend and customize Tork
 ---
 
 Tork's architecture makes it fairly easy to add functionality to the core engine.
@@ -14,7 +14,7 @@ For configuring its existing behavior, refer to the [configuration](/config) gui
 
 ---
 
-## Running Tork in embedded mode
+## Using Tork as a library
 
 Create a new directory:
 
