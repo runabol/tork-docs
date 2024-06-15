@@ -45,7 +45,8 @@ type = "inmemory" # inmemory | rabbitmq
 [broker.rabbitmq]
 url = "amqp://guest:guest@localhost:5672/"
 consumer.timeout = "30m"
-management.url = ""                        # default: http://{rabbit_host}:15672/
+
+management.url = "http://{rabbit_host}:15672/"
 durable.queues = false
 
 [datastore]
@@ -90,7 +91,9 @@ enabled = false
 
 [middleware.web.keyauth]
 enabled = false
-key = ""        # if left blank, it will auto-generate a key and print it to the logs on startup
+# if left blank, it will auto-generate a key
+# and print it to the logs on startup
+key = ""
 
 
 # rate limiter middleware
@@ -108,8 +111,9 @@ skip = ["GET /health"] # supports wildcards (*)
 enabled = false
 
 [middleware.task.hostenv]
-vars = [
-] # list of host env vars to inject into tasks, supports aliases (e.g. SOME_HOST_VAR:OTHER_VAR)
+# list of host env vars to inject into tasks,
+# supports aliases (e.g. SOME_HOST_VAR:OTHER_VAR)
+vars = []
 
 
 [worker]
@@ -128,8 +132,10 @@ timeout = "" # e.g. 3h
 
 [mounts.bind]
 allowed = false
+# a list of paths that are allowed as mount sources.
+# if empty all sources are allowed.
 sources = [
-] # a list of paths that are allowed as mount sources. if empty all sources are allowed.
+]
 
 [mounts.temp]
 dir = "/tmp"

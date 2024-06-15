@@ -86,5 +86,5 @@ Optional: You can add custom configuration to the [config file](/config) if you 
 
 ```toml
 [mounter.mymounter]
-# configs
+# your configs
 ```
