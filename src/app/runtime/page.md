@@ -10,14 +10,12 @@ The `Runtime` component is responsible for the execution of the task `run` scrip
 
 ---
 
-## Types
-
 There are two types of `Runtime` implementations that are supported out of the box with Tork:
 
 1. Docker (default)
 2. Shell
 
-### Docker
+## Docker
 
 This is the default execution environment for a task. A new container is created for each task execution. Any `mounts` or `networks` defined on the task will be attached to the container on startup. Upon completion/failure of a task the container will be destroyed. This is the recomendded execution environment for a task as it provides maximum isolation from other tasks as well as from the host.
 
@@ -28,7 +26,7 @@ Configuration:
 type = "docker" # this is already the default
 ```
 
-### Shell
+## Shell
 
 This runtime environment is only supported on unix/linux systems. When using the Shell runtime, tasks execute as a forked process on the host machine that is running Tork.
 
