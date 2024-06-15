@@ -55,11 +55,17 @@ tasks:
 
 Tork uses the [expr](https://github.com/antonmedv/expr) expression language to:
 
-- Evaluate C-style embedded expressions in a task's environment variables.
-
+- Evaluate C-style embedded expressions in the job defintion.
 - Evaluate a task's `if` condition to determine whether a task should run.
 
-### If Expression
+Most expressions use the job's context which has the following namespaces:
+
+- `inputs` - to access any values from the job's `inputs` block.
+- `secrets` - to access any values from the job's `secrets` block.
+- `tasks` - to access the results of previous tasks.
+- `job` - to access the job's metadata.
+
+Examples:
 
 When an `if` expression evaluates to anything except `false`, the task will run.
 
@@ -75,8 +81,6 @@ tasks:
       echo "this should not execute"
 ```
 
-### Access the job's context
-
 ```yaml
 name: example job
 inputs:
@@ -90,7 +94,38 @@ tasks:
       echo $MESSAGE
 ```
 
-### Functions
+```yaml
+name: hello job
+tasks:
+  - name: do something
+    var: someOutput
+    image: ubuntu:mantic
+    run: |
+      echo -n hello world > $TORK_OUTPUT
+  - name: print result of previous task
+    image: ubuntu:mantic
+    run: |
+      echo -n $OUTPUT
+    env:
+      OUTPUT: '{{tasks.someOutput}}'
+```
+
+```yaml
+name: my job
+secrets:
+  api_key: 1111-1111-1111-1111
+tasks:
+  - name: my task
+    queue: default
+    image: alpine:latest
+    run: |
+      curl -X POST -H "API_KEY: $API_KEY" http://example.com
+    env:
+      # use the 'secrets' namespace to inject a secret
+      API_KEY: '{{secrets.api_key}}'
+```
+
+## Functions
 
 There are a number of [built-in](https://expr.medv.io/docs/Language-Definition#built-in-functions) and [additional](https://github.com/runabol/tork/blob/main/internal/eval/funcs.go) functions that can be used in expressions.
 
@@ -103,7 +138,7 @@ There are a number of [built-in](https://expr.medv.io/docs/Language-Definition#b
     echo "The length of the string is: $LENGTH"
 ```
 
-### Environment Variables
+## Environment Variables
 
 You can set custom environment variables for a given task by using the `env` property:
 
@@ -118,9 +153,24 @@ You can set custom environment variables for a given task by using the `env` pro
     echo $OUTRO
 ```
 
-#### Secrets
+## Secrets
 
-By convention, any environment variables which contain the keywords `SECRET`, `PASSWORD` or `ACCESS_KEY` in their names will have their values automatically redacted from API responses when the [redact middleware](/config) is enabled.
+Sensitive values can be specified in the job's `secrets` block so they can be auto-redacted from API responses.
+
+```yaml
+name: my job
+secrets:
+  api_key: 1111-1111-1111-1111
+tasks:
+  - name: my task
+    queue: default
+    image: alpine:latest
+    run: |
+      curl -X POST -H "API_KEY: $API_KEY" http://example.com
+    env:
+      # use the 'secrets' namespace to inject a secret
+      API_KEY: '{{secrets.api_key}}'
+```
 
 {% callout title="Warning!" %}
 Tork automatically redacts secrets printed to the log, but you should avoid printing secrets to the log intentionally.
@@ -142,9 +192,7 @@ For more fine-grained control, default limits can be overridden at an individual
     memory: 10m
 ```
 
-## Sepcial Tasks
-
-### Parallel Task
+## Parallel Task
 
 To run a group of tasks concurrently, wrap them in a `parallel` task.
 
@@ -162,7 +210,7 @@ Example:
         run: sleep 3
 ```
 
-### Each Task
+## Each Task
 
 Executes the task to for each `item` in `list`, in parallel.
 
@@ -180,7 +228,7 @@ Example:
       run: echo -n HELLO $ITEM at $INDEX
 ```
 
-### Sub-Job Task
+## Sub-Job Task
 
 A task can start another job. When a sub-job completes or fails it marks its parent task as `COMPLETED` or `FAILED` respectively.
 
@@ -228,7 +276,7 @@ Example:
 - name: convert the first 5 seconds of a video
   image: jrottenberg/ffmpeg:3.4-alpine
   run: |
-    ffmpeg -i /tmp/input.ogv -t 5 /tmp/output.mp4
+    ffmpeg -i /tmp/my_video.mov -t 5 /tmp/output.mp4
   mounts:
     - type: volume
       target: /tmp
@@ -237,8 +285,8 @@ Example:
       image: alpine:3.18.3
       run: |
         wget \
-         https://upload.wikimedia.org/wikipedia/commons/1/18/Big_Buck_Bunny_Trailer_1080p.ogv \
-         -O /tmp/input.ogv
+         http://example.com/my_video.mov \
+         -O /tmp/my_video.mov
   post:
     - name: upload the converted file
       image: alpine:3.18.3
