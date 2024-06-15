@@ -87,7 +87,8 @@ tasks:
     run: |
       curl -X POST -H "API_KEY: $API_KEY" http://example.com
     env:
-      API_KEY: '{{secrets.api_key}}' # use the 'secrets' namespace to inject a secret
+      # use the 'secrets' namespace to inject a secret
+      API_KEY: '{{secrets.api_key}}'
 ```
 
 ## Defaults
@@ -98,13 +99,20 @@ Jobs may specify default values for all their tasks. All properties are optional
 name: my job
 defaults:
   retry:
-    limit: 2 # a task will retry up to 2 times in case of a failure
-  limits: # resource limits imposed on a task
-    cpus: 1 # 1 CPU limit
-    memory: 500m # 500MB of RAM limit
-  timeout: 10m # a task will automatically fail if not completed within 10 minutes
-  queue: highcpu # tasks will be routed to the highcpu queue by default
-  priority: 3 # values between 0-9. Higher numbers mean higher priority
+    # a task will retry up to 2 times in case of a failure
+    limit: 2
+  # resource limits imposed on a task
+  limits:
+    # 1 CPU limit
+    cpus: 1
+    # 500MB of RAM limit
+    memory: 500m
+  # a task will automatically fail if not completed within 10 minutes
+  timeout: 10m
+  # tasks will be routed to the highcpu queue by default
+  queue: highcpu
+  # values between 0-9. Higher numbers mean higher priority
+  priority: 3
 tasks:
   - name: my task
     queue: default # override the job defaults
@@ -120,7 +128,34 @@ Jobs may specify a period of retention past their completion timestamp, after wh
 ```yaml
 name: my job
 autoDelete:
-  after: 6h # job will be deleted 6 hours after its completion.
+  # job will be automatically deleted 6 hours after its completion.
+  after: 6h
+tasks:
+  - name: my task
+    image: alpine:latest
+    run: |
+      echo hello world
+```
+
+## Webhooks
+
+Jobs may specify zero or more webhooks that will be called for various events.
+
+Webhooks will be triggerd on either of two event types:
+
+- `job.StateChange` (Default) - the webhook will be called every time the job changes from one state to another - e.g. from `SCHEDULED` to `RUNNING`.
+- `task.StateChange` - the webhook will be called every time a task changes from one state to another.
+
+```yaml
+name: my job
+webhooks:
+  # Webhook URL (assuming POST)
+  - url: http://example.com/my/webhook
+    # optional headers to send when calling the webhook endpoint
+    headers:
+      my-header: somevalue
+    # event type
+    event: job.StateChange
 tasks:
   - name: my task
     image: alpine:latest

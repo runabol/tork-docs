@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     default: 'Tork - Open Source Workflow Engine',
   },
   description:
-    'Cache every single thing your app could ever do ahead of time, so your code never even has to run at all.',
+    'Creating workflows shouldn&apos;t be complicated or restricted to engineers; it should be available to everyone in the language they feel most comfortable with.',
 }
 
 export default function RootLayout({
