@@ -162,3 +162,23 @@ tasks:
     run: |
       echo hello world
 ```
+
+## Permissions
+
+When specified, permissions specify which user(s) or role(s) should have access to this particular job.
+
+Jobs without `permissions` will be viewable to all users.
+
+```yaml
+name: my job
+permissions:
+  # the role's slug
+  - role: some-role
+  # the user's username
+  - user: someuser
+tasks:
+  - name: my task
+    image: alpine:latest
+    run: |
+      echo hello world
+```
