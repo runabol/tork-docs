@@ -26,6 +26,16 @@ Configuration:
 type = "docker" # this is already the default
 ```
 
+### Sandbox mode (Experimental)
+
+Sandbox mode is an experimental security feature which forces containers to run as non-root.
+
+When turned on (`TORK_RUNTIME_DOCKER_SANDBOX=true`) for a given worker, docker images will be automatically extended and added a `tork` user.
+
+If the `tork` user already exists on the image, Tork will respect that. This is useful if you want to have better control over the creation and assignment of permissions to the `tork` user.
+
+Use of this feature assumes the worker has access to the `busybox:stable` image (either locally or by means of a pull).
+
 ## Shell
 
 This runtime environment is only supported on unix/linux systems. When using the Shell runtime, tasks execute as a forked process on the host machine that is running Tork.
