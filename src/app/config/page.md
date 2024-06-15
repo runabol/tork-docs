@@ -6,6 +6,12 @@ nextjs:
     description: Configuring Tork
 ---
 
+Tork can be configured using a `config.toml` file or by using environment variables
+
+---
+
+## Configuration File
+
 Tork can be configured by creating a `config.toml` file in the same directory from which it is started.
 
 Other well-known locations that Tork will look for config files are `~/tork/config.toml` and `/etc/tork/config.toml` in that order.
@@ -17,10 +23,6 @@ TORK_CONFIG=myconfig.toml ./tork run standalone
 ```
 
 If no configuration file is found, Tork will attempt to start using sensible defaults.
-
----
-
-## Configuration File
 
 The following are all the configuration options supported by Tork.
 
@@ -43,13 +45,15 @@ type = "inmemory" # inmemory | rabbitmq
 [broker.rabbitmq]
 url = "amqp://guest:guest@localhost:5672/"
 consumer.timeout = "30m"
-management.url = "" # default: http://{rabbit_host}:15672/
+management.url = ""                        # default: http://{rabbit_host}:15672/
+durable.queues = false
 
 [datastore]
 type = "inmemory" # inmemory | postgres
 
 [datastore.postgres]
 dsn = "host=localhost user=tork password=tork dbname=tork port=5432 sslmode=disable"
+task.logs.interval = "168h"
 
 [coordinator]
 address = "localhost:8000"
@@ -62,6 +66,7 @@ endpoints.tasks = true   # turn on|off the /tasks endpoints
 endpoints.nodes = true   # turn on|off the /nodes endpoint
 endpoints.queues = true  # turn on|off the /queues endpoint
 endpoints.metrics = true # turn on|off the /metrics endpoint
+endpoints.users = true   # turn on|off the /users endpoints
 
 [coordinator.queues]
 completed = 1 # completed queue consumers
@@ -82,8 +87,11 @@ headers = "*"
 # basic auth middleware
 [middleware.web.basicauth]
 enabled = false
-username = "tork"
-password = ""     # if left blank, it will auto-generate a password and print it to the logs on startup
+
+[middleware.web.keyauth]
+enabled = false
+key = ""        # if left blank, it will auto-generate a key and print it to the logs on startup
+
 
 # rate limiter middleware
 [middleware.web.ratelimit]
@@ -120,6 +128,8 @@ timeout = "" # e.g. 3h
 
 [mounts.bind]
 allowed = false
+sources = [
+] # a list of paths that are allowed as mount sources. if empty all sources are allowed.
 
 [mounts.temp]
 dir = "/tmp"
@@ -134,6 +144,7 @@ gid = ""             # set the gid for the the task process (recommended)
 
 [runtime.docker]
 config = ""
+sandbox = false
 ```
 
 ## Environment Variables
