@@ -258,6 +258,41 @@ Sub jobs may also be spawned in `detached` mode, meaning that the parent/spawnin
         run: echo some work
 ```
 
+## Mounts
+
+Mounts are often used to share state between the task and its `pre` and `post` tasks (see [Pre/Post tasks](#pre-post-tasks)) but can also be used to access persistent data on the host.
+
+When using the default Docker [runtime](/runtime) there are three types of mounts available:
+
+- `volume` - a [Docker volume](https://docs.docker.com/storage/volumes/) based mount. Volumes are removed at the termination of the task.
+
+```yaml
+- name: convert the first 5 seconds of a video
+  image: jrottenberg/ffmpeg:3.4-alpine
+  run: ffmpeg -i /tmp/my_video.mov -t 5 /tmp/output.mp4
+  mounts:
+    - type: volume
+      target: /tmp
+  pre:
+    - name: download the remote file
+      image: alpine:3.18.3
+      run: wget http://example.com/my_video.mov
+```
+
+- `bind` - used to mount a host path to a container path.
+
+```yaml
+- name: convert the first 5 seconds of a video
+  image: jrottenberg/ffmpeg:3.4-alpine
+  run: ffmpeg -i /mnt/videos/my_video.mov -t 5 /mnt/videos/output.mp4
+  mounts:
+    - type: bind
+      target: /mnt/videos
+      source: /host/path
+```
+
+- `tmpfs` - a `tmpfs` mount is temporary, and only persisted in the host memory. When the container stops, the `tmpfs` mount is removed, and files written there won&apos;t be persisted.
+
 ## Pre/Post Tasks
 
 Worker nodes are stateless by design. Which means that no state is left on the worker node after a task terminates. Moreover tasks can execute on any of the available worker so there's no guarantee that a task that is scheduled to execute will execute on the same node that the task just prior to it executed.
@@ -294,4 +329,31 @@ Example:
         wget \
         --post-file=/tmp/output.mp4 \
         https://devnull-as-a-service.com/dev/null
+```
+
+## Priority
+
+To increase the priority of a task in its queue, use the `priority` property.
+
+Acceptable values are between `0` (no priority) and `9` (highest priority).
+
+```yaml
+name: my job
+tasks:
+  - name: my first task
+    image: alpine:3.18.3
+    run: sleep 3
+    priority: 1
+```
+
+You can also set the default priority for all tasks at the job level:
+
+```yaml
+name: my job
+defaults:
+  priority: 1
+tasks:
+  - name: my first task
+    image: alpine:3.18.3
+    run: sleep 3
 ```
