@@ -303,7 +303,7 @@ Example:
 
 Executes the task to for each `item` in `list`, in parallel.
 
-Example:
+Examples:
 
 ```yaml
 - name: sample each task
@@ -315,6 +315,22 @@ Example:
         ITEM: '{{ item.value }}'
         INDEX: '{{ item.index }}'
       run: echo -n HELLO $ITEM at $INDEX
+```
+
+```yaml
+name: my job
+inputs:
+  people: '[{"name":"Michael"},{"name":"George"}]'
+tasks:
+  - name: print each person
+    each:
+      list: '{{fromJSON(inputs.people)}}'
+      task:
+        name: my first task
+        run: echo $NAME
+        image: alpine:3.18.3
+        env:
+          NAME: '{{item.value.name}}'
 ```
 
 ## Sub-Job Task
