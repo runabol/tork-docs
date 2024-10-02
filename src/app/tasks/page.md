@@ -303,12 +303,15 @@ Example:
 
 Executes the task to for each `item` in `list`, in parallel.
 
+You can optionally control the maximum number of tasks that would execute across the cluster using the `concurrency` property.
+
 Examples:
 
 ```yaml
 - name: sample each task
   each:
     list: '{{ sequence(1,5) }}'
+    concurrency: 3 # max 3 tasks would execute concurrently
     task:
       image: ubuntu:mantic
       env:
