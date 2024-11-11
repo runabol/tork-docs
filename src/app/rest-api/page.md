@@ -144,6 +144,34 @@ tasks:
 '
 ```
 
+Or using JSON:
+
+**Headers:**
+
+```shell
+Content-Type:application/json
+```
+
+**Body:**
+
+The [job](/jobs) definition represented in JSON
+
+**Example:**
+
+```bash
+curl -X POST "http://localhost:8000/jobs" \
+     -H "Content-Type: application/json" \
+     -d \
+'{
+  "name": "hello job",
+  "tasks": [{
+     "name": "say hello",
+      "image": "ubuntu:mantic",
+      "run": "echo -n hello world\n"
+  }]
+}'
+```
+
 ## Cancel a running job
 
 **Path:**
