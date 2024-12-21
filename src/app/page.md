@@ -35,6 +35,7 @@ title: Getting Started
 - [Each Task](/tasks#each-task)
 - [Subjob Task](/tasks#sub-job-task)
 - [Pre/Post tasks](https://www.tork.run/tasks#pre-post-tasks)
+- [Scheduled jobs](https://www.tork.run/jobs#scheduled-jobs)
 - [Web UI](/web-ui)
 
 ---
