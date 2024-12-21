@@ -12,6 +12,7 @@ In Tork, a Job is a series of tasks running in the order they appear on the job 
 ## Super simple example
 
 ```yaml
+# job.yaml
 name: hello job
 tasks:
   - name: say hello
@@ -23,6 +24,13 @@ tasks:
     image: ubuntu:mantic
     run: |
       echo -n bye world
+```
+
+```bash
+curl -s -X POST \
+  --data-binary @job.yaml \
+  -H "Content-type: text/yaml" \
+  http://localhost:8000/jobs
 ```
 
 What will happen:
@@ -181,4 +189,38 @@ tasks:
     image: alpine:latest
     run: |
       echo hello world
+```
+
+## Scheduled jobs
+
+Jobs can be scheduled to execute at specific times using the `schedule` property. The schedule uses the cron syntax to define the intervals.
+
+Example:
+
+```yaml
+# job.yaml
+name: scheduled job test
+schedule:
+  cron: "0/5 * * * *" # run the job every 5 minutes
+tasks:
+  - name: my first task
+    image: alpine:3.18.3
+    run: echo -n hello world
+```
+
+```bash
+curl -s -X POST \
+  --data-binary @job.yaml \
+  -H "Content-type: text/yaml" \
+  http://localhost:8000/scheduled-jobs | jq .
+```
+
+```json
+{
+  "id": "c90188cce61244a1aabcdbedf31f51d6",
+  "state": "ACTIVE",
+  "name": "scheduled job test",
+  "createdAt": "2024-12-21T14:53:05.709793Z",
+  "cron": "0/5 * * * *"
+}
 ```
