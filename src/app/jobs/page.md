@@ -157,13 +157,15 @@ Webhooks will be triggerd on either of two event types:
 ```yaml
 name: my job
 webhooks:
-  # Webhook URL (assuming POST)
+    # Webhook URL (assuming POST)
   - url: http://example.com/my/webhook
+    # event type
+    event: job.StateChange
     # optional headers to send when calling the webhook endpoint
     headers:
       my-header: somevalue
-    # event type
-    event: job.StateChange
+	  # optional: conditional execution of the webhook
+	  if: "{{ job.State == 'COMPLETED' }}"
 tasks:
   - name: my task
     image: alpine:latest
