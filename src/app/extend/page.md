@@ -343,8 +343,8 @@ webhooks:
     # optional: headers to send when calling the webhook endpoint
     headers:
       my-header: somevalue
-	# optional: conditiononly execute the webhook
-	if: "{{ job.State == 'COMPLETED' }}"
+    # optional: conditional execution of the webhook
+    if: "{{ job.State == 'COMPLETED' }}"
 ```
 
 - Host Env - allows to inject a list of env vars from the host to any tasks running on that host. Supports aliases using `:`. Example config:
