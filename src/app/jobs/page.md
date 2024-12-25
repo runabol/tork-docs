@@ -164,8 +164,8 @@ webhooks:
     # optional headers to send when calling the webhook endpoint
     headers:
       my-header: somevalue
-	  # optional: conditional execution of the webhook
-	  if: "{{ job.State == 'COMPLETED' }}"
+    # optional: conditional execution of the webhook
+    if: "{{ job.State == 'COMPLETED' }}"
 tasks:
   - name: my task
     image: alpine:latest
