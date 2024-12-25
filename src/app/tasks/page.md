@@ -439,6 +439,19 @@ Example:
         https://devnull-as-a-service.com/dev/null
 ```
 
+## Retry
+
+Tasks can be retried on failure using the `retry` property. This property allows you to specify the number of retry attempts, the initial delay before the first retry, and an optional scaling factor to increase the delay between subsequent retries. 
+
+Example:
+
+```yaml
+retry:
+  limit: 5 # will retry up to 5 times
+  initialDelay: 5s # optional: default 1s (max: 5m)
+  scalingFactor: # optional: default 2 (max: 10)
+```
+
 ## Priority
 
 To increase the priority of a task in its queue, use the `priority` property.

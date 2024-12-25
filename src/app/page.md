@@ -23,19 +23,23 @@ title: Getting Started
 - Task isolation - tasks are executed within a container to provide isolation, idempotency, and in order to enforce resource limits
 - Automatic recovery of tasks in the event of a worker crash
 - Supports both stand-alone and [distributed](/installation#running-in-a-distributed-mode) setup
-- Retry failed tasks
+- [Retry failed tasks](/tasks#retry)
 - No single point of failure
-- Task timeout
+- [Task timeout](/tasks#timeout)
 - Full-text search
 - [Runtime](/runtime) agnostic.
 - [Middleware](/extend#middleware)
+- [Webhooks](/jobs#webhooks)
 - [Expression Language](/tasks#expressions)
 - Conditional Tasks
 - [Parallel Task](/tasks#parallel-task)
 - [Each Task](/tasks#each-task)
 - [Subjob Task](/tasks#sub-job-task)
-- [Pre/Post tasks](https://www.tork.run/tasks#pre-post-tasks)
-- [Scheduled jobs](https://www.tork.run/jobs#scheduled-jobs)
+- [Task priority](/tasks#priority)
+- [Pre/Post tasks](/tasks#pre-post-tasks)
+- [Secrets](/tasks#secrets)
+- [Scheduled jobs](/jobs#scheduled-jobs)
+- [Sandbox Mode](/runtime#sandbox-mode-experimental)
 - [Web UI](/web-ui)
 
 ---
