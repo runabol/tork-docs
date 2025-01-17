@@ -150,7 +150,6 @@ gid = ""             # set the gid for the the task process (recommended)
 
 [runtime.docker]
 config = ""
-sandbox = false
 ```
 
 ## Environment Variables
