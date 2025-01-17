@@ -39,7 +39,6 @@ title: Getting Started
 - [Pre/Post tasks](/tasks#pre-post-tasks)
 - [Secrets](/tasks#secrets)
 - [Scheduled jobs](/jobs#scheduled-jobs)
-- [Sandbox Mode](/runtime#sandbox-mode-experimental)
 - [Web UI](/web-ui)
 
 ---
