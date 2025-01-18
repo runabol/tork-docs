@@ -13,8 +13,8 @@ The `Runtime` component is responsible for the execution of the task `run` scrip
 There are several `Runtime` implementations that are supported out of the box with Tork:
 
 1. Docker (default)
-2. Shell
-3. Podman
+2. Podman
+3. Shell
 
 ## Docker
 
