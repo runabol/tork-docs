@@ -27,6 +27,12 @@ Configuration:
 type = "docker" # this is already the default
 ```
 
+or 
+
+```bash
+TORK_RUNTIME_TYPE=docker
+```
+
 ## Podman 
 
 This runtime environment is similar to Docker but uses Podman instead. Podman is a daemonless container engine for developing, managing, and running OCI Containers. It is an alternative to Docker and can be used in environments where Docker is not available or preferred.
@@ -36,6 +42,12 @@ Configuration:
 ```toml
 [runtime]
 type = "podman"
+```
+
+or 
+
+```bash
+TORK_RUNTIME_TYPE=podman
 ```
 
 ## Shell
@@ -54,6 +66,12 @@ type = "shell"
 cmd = ["bash", "-c"] # the shell command used to execute the run script
 uid = ""             # set the uid for the the task process (recommended)
 gid = ""             # set the gid for the the task process (recommended)
+```
+
+or 
+
+```bash
+TORK_RUNTIME_SHELL=podman
 ```
 
 ## Mounts
