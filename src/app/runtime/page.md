@@ -83,7 +83,7 @@ The `Mounter` component is responsible for mounting and unmounting task-defined 
 
 ### Docker Mounts
 
-There are several types of `Mounter` implementations that are supported out of the box when using the default Docker-based runtime:
+There are several types of `Mounter` implementations that are supported out of the box when using the Docker or Podman runtimes:
 
 1. `volume` - mounts and unmounts docker volumes for a given task.
 2. `bind` - binds a host folder to a container folder for a given task.
