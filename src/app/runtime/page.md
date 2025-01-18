@@ -6,15 +6,18 @@ nextjs:
     description: Tork Runtime
 ---
 
-The `Runtime` component is responsible for the execution of the task `run` script.
+## Overview
 
----
+The Tork runtime system allows you to execute tasks in isolated environments. This ensures that tasks do not interfere with each other and can be executed in a controlled manner. The runtime system supports multiple backends, each suited for different use cases.
 
-There are several `Runtime` implementations that are supported out of the box with Tork:
+## Supported Runtimes
 
-1. Docker (default)
-2. Podman
-3. Shell
+Tork supports the following runtime environments:
+
+- **Docker**: The default and recommended runtime for most use cases.
+- **Podman**: An alternative to Docker, suitable for environments where Docker is not available.
+- **Shell**: Executes tasks directly on the host machine, recommended only for specific use cases due to security concerns.
+
 
 ## Docker
 
