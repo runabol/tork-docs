@@ -10,10 +10,11 @@ The `Runtime` component is responsible for the execution of the task `run` scrip
 
 ---
 
-There are two types of `Runtime` implementations that are supported out of the box with Tork:
+There are several `Runtime` implementations that are supported out of the box with Tork:
 
 1. Docker (default)
 2. Shell
+3. Podman
 
 ## Docker
 
@@ -26,6 +27,16 @@ Configuration:
 type = "docker" # this is already the default
 ```
 
+## Podman 
+
+This runtime environment is similar to Docker but uses Podman instead. Podman is a daemonless container engine for developing, managing, and running OCI Containers. It is an alternative to Docker and can be used in environments where Docker is not available or preferred.
+
+Configuration:
+
+```toml
+[runtime]
+type = "podman"
+```
 
 ## Shell
 
