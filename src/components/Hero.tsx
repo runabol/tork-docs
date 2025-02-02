@@ -151,7 +151,7 @@ export function Hero() {
                 simplicity in mind.
               </p>
               <div className="mt-8 flex gap-4 md:justify-center lg:justify-start">
-                <Button href="/#quick-start">Quick Start</Button>
+                <Button href="/quick-start">Quick Start</Button>
                 <Button
                   href="https://github.com/runabol/tork"
                   variant="secondary"
