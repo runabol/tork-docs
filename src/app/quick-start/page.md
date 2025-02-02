@@ -69,6 +69,40 @@ curl -s http://localhost:8000/jobs/$JOB_ID
 3. Task 2 (“say goodbye”) ran in a container based on `alpine:latest`.
 4. When both tasks finished, Tork reported the job state as `COMPLETED`.
 
+## Using an external database
+
+By default, all job and task states are stored in an in-memory datastore, which is suitable for quick experimentation. However, this state is lost when you restart Tork. To persist the state, you can use an external PostgreSQL database.
+
+### Set up PostgreSQL
+
+Start a PostgreSQL container 
+
+{% callout title="Note" %}
+For production you may want to consider using a managed PostgreSQL service for better reliability and maintenance.
+{% /callout %}
+
+```shell
+docker run -d \
+  --name tork-postgres \
+  -p 5432:5432 \
+  -e POSTGRES_PASSWORD=tork \
+  -e POSTGRES_USER=tork \
+  -e PGDATA=/var/lib/postgresql/data/pgdata \
+  -e POSTGRES_DB=tork postgres:15.3
+```
+
+Run a migration to create the database schema:
+
+```shell
+TORK_DATASTORE_TYPE=postgres ./tork migration
+```
+
+Start Tork with PostgreSQL as the datastore:
+
+```shell
+TORK_DATASTORE_TYPE=postgres ./tork run standalone
+```
+
 ## Running in distributed mode
 
 Running Tork in distributed mode allows you to split the roles of Coordinator (overseeing tasks) and Worker (executing tasks on separate machines or processes).
@@ -81,12 +115,16 @@ Launch RabbitMQ with the following command:
 docker run -d -p 5672:5672 -p 15672:15672 --name=tork-rabbitmq rabbitmq:3-management
 ```
 
+{% callout title="Note" %}
+For production you may want to consider using a dedicated RabbitMQ service for better reliability and maintenance.
+{% /callout %}
+
 This command will start RabbitMQ in detached mode. You can access the RabbitMQ management interface by navigating to `http://localhost:15672` in your web browser. The default username and password are both `guest`.
 
 Open a new terminal and run the coordinator:
 
 ```bash
-TORK_BROKER_TYPE=rabbitmq ./tork run coordinator
+TORK_DATASTORE_TYPE=postgres TORK_BROKER_TYPE=rabbitmq ./tork run coordinator
 ```
 
 Open another terminal and start a worker (you can repeat this step to simulate multiple workers):
@@ -105,33 +143,87 @@ JOB_ID=$(curl -s -X POST --data-binary @hello.yaml \
 Query for the status of the job:
 
 ```shell
-curl -s http://localhost:8000/jobs/$JOB_ID
+curl -s http://localhost:8000/jobs/$JOB_ID | jq .state
 ```
 
-```json
-{
-  "id": "ed0dba93d262492b8cf26e6c1c4f1c98",
-  "state": "COMPLETED",
-  ...
-}
+```shell
+COMPLETED
 ```
 
-What happened here? 
+### What’s different in distributed mode?
 
-When you submitted the job, Tork distributed the tasks across the available worker nodes. Here’s a breakdown of the process:
+1. **Coordinator** receives the job and breaks it into tasks.
+2. **Broker (RabbitMQ)** manages these tasks as messages in a queue.
+3. **Worker** takes a task from the queue, runs the specified Docker command, and reports completion back to the coordinator.
+4. **Coordinator** sends the next task to the queue, until all tasks are done.
 
-1. The Coordinator picked up the first task and sent it to the `default` queue to be picked up by any available worker.
-2. A Worker node picked up the task from the queue and executed it using the `ubuntu:mantic` Docker image.
-3. The Worker node then notified the Coordinator that the task was completed using the `completed` queue.
-4. The Coordinator then picked up the second task and sent it to the `default` queue.
-5. A Worker node picked up the second task from the queue and executed it using the `alpine:latest` Docker image.
-6. The Worker node notified the Coordinator that the task was completed using the `completed` queue.
+By separating these roles, you can scale Tork horizontally. Multiple workers can share the workload, each picking up tasks from the queue.
 
-Since there were no more tasks to execute, the Coordinator marked the job as `COMPLETED`.
+## Adding external storage
 
-## Next Steps
+By design, Tork tasks are ephemeral: each task runs independently in a Docker container, which disappears as soon as the task completes. Any data written to the container’s filesystem is lost after the task finishes. If you want to share data between tasks (or persist it beyond task execution), you need an external data store.
 
-Now that you have successfully run Tork in both standalone and distributed modes, here are some next steps you can take to further explore its capabilities:
+### Set up MinIO
+
+MinIO is an S3-compatible object store that you can run locally via Docker. 
+
+Let’s start a MinIO container:
+
+```bash
+docker run --name=tork-minio \
+  -d -p 9000:9000 -p 9001:9001 \
+  -e MINIO_ROOT_USER=minioadmin \
+  -e MINIO_ROOT_PASSWORD=minioadmin \
+  minio/minio server /data \
+  --console-address ":9001"
+```
+
+### Creating a Job with External State
+
+Below is an example job file (`stateful.yaml`) with two tasks:
+
+1. Writes data to MinIO (creating a bucket, then uploading a file).
+2. Reads the data back from MinIO and prints it.
+
+```yaml
+name: stateful example
+inputs:
+  minio_endpoint: http://host.docker.internal:9000
+secrets:
+  minio_user: minioadmin
+  minio_password: minioadmin
+tasks:
+  - name: write data to object store
+    image: amazon/aws-cli:latest
+    env:
+      AWS_ACCESS_KEY_ID: "{{ secrets.minio_user }}"
+      AWS_SECRET_ACCESS_KEY: "{{ secrets.minio_password }}"
+      AWS_ENDPOINT_URL: "{{ inputs.minio_endpoint }}"
+      AWS_DEFAULT_REGION: us-east-1
+    run: |
+      echo "Hello from Tork!" > /tmp/data.txt
+      aws s3 mb s3://mybucket
+      aws s3 cp /tmp/data.txt s3://mybucket/data.txt
+
+  - name: read data from object store
+    image: amazon/aws-cli:latest
+    env:
+      AWS_ACCESS_KEY_ID: "{{ secrets.minio_user }}"
+      AWS_SECRET_ACCESS_KEY: "{{ secrets.minio_password }}"
+      AWS_ENDPOINT_URL: "{{ inputs.minio_endpoint }}"
+      AWS_DEFAULT_REGION: us-east-1
+    run: |
+      aws s3 cp s3://mybucket/data.txt /tmp/retrieved.txt
+      echo "Contents of retrieved file:"
+      cat /tmp/retrieved.txt
+```
+
+Key Points:
+
+* `image: amazon/aws-cli:latest`: We use the AWS CLI Docker image to interact with MinIO via S3 commands.
+* `env`: We set credentials (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, etc.) so the AWS CLI can authenticate against MinIO.
+
+## Next steps
 
 1. **Read the Documentation**: Dive deeper into Tork's [jobs](/jobs) and [tasks](/tasks) documentation to understand how to define and manage more complex workflows.
 
