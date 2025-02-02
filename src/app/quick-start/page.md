@@ -6,6 +6,10 @@ nextjs:
     description: "Learn how to quickly start using Tork with this guide."
 ---
 
+Tork is designed to let you define jobs consisting of multiple tasks, each running inside its own Docker container. You can run Tork on a single machine (standalone mode) or set it up in a distributed environment with multiple workers.
+
+---
+
 ## Requirements
 
 1. Make sure you have a fairly recent version of Docker installed on your system. You can download Docker from the [official Docker website](https://www.docker.com/get-started).
@@ -58,20 +62,20 @@ curl -s http://localhost:8000/jobs/$JOB_ID
 }
 ```
 
-What happened here? 
+### What Happened Behind the Scenes?
 
-When you submitted the job, Tork executed the tasks defined in it, in the order they were defined. Here’s a breakdown of the tasks:
-
-1. **say hello**: This task used the `ubuntu:mantic` Docker image to execute its `run` script.
-2. **say goodbye**: This task used the `alpine:latest` Docker image to execute its `run` script.
-
-The server processed the job and returned a job ID, which you stored in the `JOB_ID` variable. You then queried the status of the job using this job ID, and the server responded with the job's `state`, which in this case was `COMPLETED`.
+1. Tork received your job and read the two tasks from `hello.yaml`.
+2. Task 1 (“say hello”) ran in a container based on `ubuntu:mantic`.
+3. Task 2 (“say goodbye”) ran in a container based on `alpine:latest`.
+4. When both tasks finished, Tork reported the job state as `COMPLETED`.
 
 ## Running in distributed mode
 
-To run Tork in distributed mode, we'll first need to start a broker that will allow the various Tork nodes to communicate with each other.
+Running Tork in distributed mode allows you to split the roles of Coordinator (overseeing tasks) and Worker (executing tasks on separate machines or processes).
 
-Start RabbitMQ with the following command:
+For distributed operation, Tork uses a message broker to move tasks between the coordinator and workers. a commong broker implemnentation is RabbitMQ.
+
+Launch RabbitMQ with the following command:
 
 ```shell
 docker run -d -p 5672:5672 -p 15672:15672 --name=tork-rabbitmq rabbitmq:3-management
@@ -79,13 +83,13 @@ docker run -d -p 5672:5672 -p 15672:15672 --name=tork-rabbitmq rabbitmq:3-manage
 
 This command will start RabbitMQ in detached mode. You can access the RabbitMQ management interface by navigating to `http://localhost:15672` in your web browser. The default username and password are both `guest`.
 
-Next, let's start two Tork instances in distributed mode:
+Open a new terminal and run the coordinator:
 
 ```bash
 TORK_BROKER_TYPE=rabbitmq ./tork run coordinator
 ```
 
-And from another terminal
+Open another terminal and start a worker (you can repeat this step to simulate multiple workers):
 
 ```bash
 TORK_BROKER_TYPE=rabbitmq ./tork run worker
