@@ -112,7 +112,10 @@ For distributed operation, Tork uses a message broker to move tasks between the 
 Launch RabbitMQ with the following command:
 
 ```shell
-docker run -d -p 5672:5672 -p 15672:15672 --name=tork-rabbitmq rabbitmq:3-management
+docker run \
+  -d -p 5672:5672 -p 15672:15672 \
+  --name=tork-rabbitmq \
+  rabbitmq:3-management
 ```
 
 {% callout title="Note" %}
