@@ -22,6 +22,7 @@ export const navigation = [
     links: [
       { title: 'Video Transcoding', href: '/video-transcoding' },
       { title: 'Resizing Images', href: '/resizing-images' },
+      { title: 'CI', href: '/ci' },
     ],
   },
   {
