@@ -45,16 +45,18 @@ type = "inmemory" # inmemory | rabbitmq
 [broker.rabbitmq]
 url = "amqp://guest:guest@localhost:5672/"
 consumer.timeout = "30m"
-
-management.url = "http://{rabbit_host}:15672/"
+management.url = ""                        # default: http://{rabbit_host}:15672/
 durable.queues = false
 
 [datastore]
-type = " postgres" # postgres
+type = "postgres"
+
+[datastore.retention]
+logs.duration = "168h" # 1 week
+jobs.duration = "8760h" # 1 year
 
 [datastore.postgres]
 dsn = "host=localhost user=tork password=tork dbname=tork port=5432 sslmode=disable"
-task.logs.interval = "168h"
 
 [coordinator]
 address = "localhost:8000"
@@ -91,9 +93,10 @@ enabled = false
 
 [middleware.web.keyauth]
 enabled = false
-# if left blank, it will auto-generate a key
-# and print it to the logs on startup
-key = ""
+key = ""        # if left blank, it will auto-generate a key and print it to the logs on startup
+
+[middleware.web]
+bodylimit = "500K" # Limit can be specified as 4x, where x is one of the multiple from K, M, G, T or P.
 
 
 # rate limiter middleware
@@ -111,9 +114,8 @@ skip = ["GET /health"] # supports wildcards (*)
 enabled = false
 
 [middleware.task.hostenv]
-# list of host env vars to inject into tasks,
-# supports aliases (e.g. SOME_HOST_VAR:OTHER_VAR)
-vars = []
+vars = [
+] # list of host env vars to inject into tasks, supports aliases (e.g. SOME_HOST_VAR:OTHER_VAR)
 
 
 [worker]
@@ -126,16 +128,14 @@ default = 1 # numbers of concurrent subscribers
 # default task limits
 [worker.limits]
 cpus = ""    # supports fractions
-memory = ""  # e.g. 100m
+memory = ""  # e.g. 100m 
 timeout = "" # e.g. 3h
 
 
 [mounts.bind]
 allowed = false
-# a list of paths that are allowed as mount sources.
-# if empty all sources are allowed.
 sources = [
-]
+] # a list of paths that are allowed as mount sources. if empty all sources are allowed.
 
 [mounts.temp]
 dir = "/tmp"
@@ -150,6 +150,10 @@ gid = ""             # set the gid for the the task process (recommended)
 
 [runtime.docker]
 config = ""
+privileged = false # run containers in privileged mode (not recommended)
+
+[runtime.podman]
+privileged = false # run containers in privileged mode (not recommended)
 ```
 
 ## Environment Variables
