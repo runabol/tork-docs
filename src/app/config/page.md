@@ -50,7 +50,7 @@ management.url = "http://{rabbit_host}:15672/"
 durable.queues = false
 
 [datastore]
-type = "inmemory" # inmemory | postgres
+type = " postgres" # postgres
 
 [datastore.postgres]
 dsn = "host=localhost user=tork password=tork dbname=tork port=5432 sslmode=disable"
