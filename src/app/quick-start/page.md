@@ -16,6 +16,31 @@ Tork is designed to let you define jobs consisting of multiple tasks, each runni
 
 2. Download the Tork binary for your system from the [releases](https://github.com/runabol/tork/releases/latest) page.
 
+
+### Set up PostgreSQL
+
+Start a PostgreSQL container 
+
+{% callout title="Note" %}
+For production you may want to consider using a managed PostgreSQL service for better reliability and maintenance.
+{% /callout %}
+
+```shell
+docker run -d \
+  --name tork-postgres \
+  -p 5432:5432 \
+  -e POSTGRES_PASSWORD=tork \
+  -e POSTGRES_USER=tork \
+  -e PGDATA=/var/lib/postgresql/data/pgdata \
+  -e POSTGRES_DB=tork postgres:15.3
+```
+
+Run a migration to create the database schema:
+
+```shell
+TORK_DATASTORE_TYPE=postgres ./tork migration
+```
+
 ## Hello World
 
 Start Tork in `standalone` mode:
@@ -68,40 +93,6 @@ curl -s http://localhost:8000/jobs/$JOB_ID
 2. Task 1 (“say hello”) ran in a container based on `ubuntu:mantic`.
 3. Task 2 (“say goodbye”) ran in a container based on `alpine:latest`.
 4. When both tasks finished, Tork reported the job state as `COMPLETED`.
-
-## Using an external database
-
-By default, all job and task states are stored in an in-memory datastore, which is suitable for quick experimentation. However, this state is lost when you restart Tork. To persist the state, you can use an external PostgreSQL database.
-
-### Set up PostgreSQL
-
-Start a PostgreSQL container 
-
-{% callout title="Note" %}
-For production you may want to consider using a managed PostgreSQL service for better reliability and maintenance.
-{% /callout %}
-
-```shell
-docker run -d \
-  --name tork-postgres \
-  -p 5432:5432 \
-  -e POSTGRES_PASSWORD=tork \
-  -e POSTGRES_USER=tork \
-  -e PGDATA=/var/lib/postgresql/data/pgdata \
-  -e POSTGRES_DB=tork postgres:15.3
-```
-
-Run a migration to create the database schema:
-
-```shell
-TORK_DATASTORE_TYPE=postgres ./tork migration
-```
-
-Start Tork with PostgreSQL as the datastore:
-
-```shell
-TORK_DATASTORE_TYPE=postgres ./tork run standalone
-```
 
 ## Running in distributed mode
 

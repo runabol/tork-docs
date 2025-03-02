@@ -11,11 +11,7 @@ The `Datastore` component is responsible for holding metadata about jobs, tasks 
 ---
 
 ## Types
-
-There are two types of `Datastore` implementations that are supported out of the box with Tork:
-
-1. In-memory
-2. Postgres
+Out of the box, Tork supports Postgres as a `Datastore` implementation.
 
 ## Registering a custom Datastore
 
