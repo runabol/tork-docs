@@ -21,7 +21,7 @@ docker version | grep API
 ```
 
 ```shell
-API version:       1.47
+API version:      1.47
 API version:      1.47 (minimum version 1.24)
 ```
 
