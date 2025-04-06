@@ -14,16 +14,10 @@ Download and install Tork quickly with the steps described here.
 
 ## Requirements
 
-Ensure you have Docker with API Version >= 1.45
+1. Make sure you have a fairly recent version of Docker installed on your system. You can download Docker from the [official Docker website](https://www.docker.com/get-started).
 
-```shell
-docker version | grep API
-```
+2. Download the Tork binary for your system from the [releases](https://github.com/runabol/tork/releases/latest) page.
 
-```shell
-API version:      1.47
-API version:      1.47 (minimum version 1.24)
-```
 
 ## Installation
 
@@ -78,6 +72,30 @@ GLOBAL OPTIONS:
 You may need to allow the binary to run on your system from your security settings:
 
 {% figure src="allow.png" /%}
+
+### Set up PostgreSQL
+
+Start a PostgreSQL container 
+
+{% callout title="Note" %}
+For production you may want to consider using a managed PostgreSQL service for better reliability and maintenance.
+{% /callout %}
+
+```shell
+docker run -d \
+  --name tork-postgres \
+  -p 5432:5432 \
+  -e POSTGRES_PASSWORD=tork \
+  -e POSTGRES_USER=tork \
+  -e PGDATA=/var/lib/postgresql/data/pgdata \
+  -e POSTGRES_DB=tork postgres:15.3
+```
+
+Run a migration to create the database schema:
+
+```shell
+TORK_DATASTORE_TYPE=postgres ./tork migration
+```
 
 ## Running Tork in Standalone mode
 
@@ -151,64 +169,6 @@ curl -s http://localhost:8000/jobs/$JOB_ID
   "state": "COMPLETED",
   ...
 }
-```
-
-## Datastore
-The Datastore is responsible for holding job and task state.
-
-You can configure the datastore using a [config file](/config). Currently, only PostgreSQL is supported as the datastore implementation.
-
-`postgres` - Uses a Postgres database as the underlying implementation.
-
-```toml
-# config.toml
-[datastore]
-type = "postgres"
-
-[datastore.postgres]
-dsn = "host=localhost user=tork password=tork dbname=tork port=5432 sslmode=disable"
-```
-
-Example of running Postgres:
-
-```shell
-docker run -d \
-   --name tork-postgres \
-  -p 5432:5432 \
-  -e POSTGRES_PASSWORD=tork \
-  -e POSTGRES_USER=tork \
-  -e PGDATA=/var/lib/postgresql/data/pgdata \
-	-v $(pwd)/data:/var/lib/postgresql/data \
-  -e POSTGRES_DB=tork postgres:15.3
-```
-
-Run a migration to create the database schema
-
-```shell
-./tork migration
-```
-
-```shell
- _______  _______  ______    ___   _
-|       ||       ||    _ |  |   | | |
-|_     _||   _   ||   | ||  |   |_| |
-  |   |  |  | |  ||   |_||_ |      _|
-  |   |  |  |_|  ||    __  ||     |_
-  |   |  |       ||   |  | ||    _  |
-  |___|  |_______||___|  |_||___| |_|
-
- 0.1.66
-
-11:53AM INF migration completed!
-```
-
-Start Tork:
-
-```shell
-./tork run \
-  standalone \
-  --datastore postgres \
-  --postgres-dsn "host=localhost user=tork password=tork dbname=tork port=5432 sslmode=disable"
 ```
 
 ## Running in a distributed mode
