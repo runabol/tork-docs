@@ -14,15 +14,15 @@ Download and install Tork quickly with the steps described here.
 
 ## Requirements
 
-Ensure you have Docker with API Version >= 1.42
+Ensure you have Docker with API Version >= 1.45
 
 ```shell
 docker version | grep API
 ```
 
 ```shell
-API version: 1.43
-API version: 1.43 (minimum version 1.12)
+API version:       1.47
+API version:      1.47 (minimum version 1.24)
 ```
 
 ## Installation
@@ -154,14 +154,11 @@ curl -s http://localhost:8000/jobs/$JOB_ID
 ```
 
 ## Datastore
+The Datastore is responsible for holding job and task state.
 
-The `Datastore` is responsible for holding job and task state.
+You can configure the datastore using a [config file](/config). Currently, only PostgreSQL is supported as the datastore implementation.
 
-You can specify which type of datastore to use using a [config file](/config).
-
-`inmemory` (default) - Runs entirely in memory. Convenient for experimentation and development but typically isn't suitable for production uses cases because all state will be lost upon restart.
-
-`postgres` - Uses a [Postgres](https://www.postgresql.org/) database as the underlying implementation.
+`postgres` - Uses a Postgres database as the underlying implementation.
 
 ```toml
 # config.toml
