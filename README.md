@@ -6,7 +6,7 @@ The source for the [tork.run](https://tork.run) website.
 
 ---
 
-## 🚀 Project Structure
+### Project Structure
 
 Inside of this project, you'll see the following folders and files:
 
@@ -31,7 +31,31 @@ Images can be added to `src/assets/` and embedded in Markdown with a relative li
 
 Static assets, like favicons, can be placed in the `public/` directory.
 
-## 🧞 Commands
+---
+
+### Development
+
+```bash
+# Install dependencies
+$ pnpm i
+
+# Start the dev server
+$ pnpm dev
+```
+
+`Docker`:
+
+```bash
+# Build the app into a docker image
+$ docker build . -t tork-docs
+
+# Run a container from this image
+$ docker run -itd --rm -p 4321:80 tork-docs
+```
+
+---
+
+### Commands
 
 All commands are run from the root of the project, from a terminal:
 
@@ -44,6 +68,10 @@ All commands are run from the root of the project, from a terminal:
 | `pnpm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `pnpm run astro -- --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+---
+
+### Want to learn more?
 
 Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+
+---
