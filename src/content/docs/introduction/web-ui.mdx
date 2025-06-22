@@ -1,0 +1,54 @@
+---
+title: Web UI
+description: Web UI - Tork
+---
+
+[Tork Web](https://github.com/runabol/tork-web) is a web based tool for interacting with Tork.
+
+---
+
+## Features
+
+See a list of running jobs
+
+<img src="/webui/jobs.png" alt="List of running jobs" />
+
+Submit a new job
+
+<img src="/webui/submit-job.png" alt="Submit a new job" />
+
+Cancel/Restart jobs
+
+<img src="/webui/cancel-job.png" alt="Cancel/Restart jobs" />
+
+View job execution history
+
+<img src="/webui/job-execution.png" alt="Job execution history" />
+
+View individual task details
+
+<img src="/webui/task-details.png" alt="Individual task details" />
+
+View task logs
+
+<img src="/webui/task-logs.png" alt="Task logs" />
+
+View node status
+
+<img src="/webui/nodes.png" alt="Node status" />
+
+View queues
+
+<img src="/webui/queues.png" alt="Queues" />
+
+## Installation
+
+The easiest way to get Tork Web running is using Docker:
+
+```shell
+docker run -itd --rm \
+  --name=tork-web \
+  -p 3000:3000 \
+  -e BACKEND_URL=http://<host>:8000 \
+  runabol/tork-web
+```
