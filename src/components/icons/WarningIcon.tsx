@@ -1,6 +1,6 @@
-import { DarkMode, Gradient, LightMode } from '@/components/Icon'
+import { DarkMode, Gradient, LightMode } from '../Icon'
 
-export function WarningIcon({
+export default function WarningIcon({
   id,
   color,
 }: {

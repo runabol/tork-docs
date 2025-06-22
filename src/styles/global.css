@@ -1,0 +1,41 @@
+@layer base, starlight, theme, components, utilities;
+
+@import "@astrojs/starlight-tailwind";
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Original starlight theme: https://github.com/withastro/starlight/blob/main/packages/starlight/style/props.css */
+
+/* Custom Starlight theme: */
+
+:root,
+::backdrop {
+  --sl-color-accent: oklch(12.9% 0.042 264.695);
+  --sl-color-text-accent: oklch(74.6% 0.16 232.661);
+  --sl-color-text-invert: white;
+}
+
+html,
+body {
+  @apply dark:text-white text-black bg-gray-50 dark:bg-slate-950;
+}
+
+.header {
+  @apply bg-white dark:bg-slate-900 dark:border-gray-800;
+}
+
+.sidebar-content {
+  @apply dark:bg-slate-900 dark:border-r dark:border-gray-800;
+}
+
+.card {
+  @apply rounded-md bg-white dark:bg-slate-900;
+}
+
+.pagination-links a {
+  @apply bg-white dark:bg-slate-900;
+}
+
+.content-panel img {
+  @apply rounded-md;
+}

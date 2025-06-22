@@ -1,6 +1,6 @@
-import { DarkMode, Gradient, LightMode } from '@/components/Icon'
+import { DarkMode, Gradient, LightMode } from '../Icon'
 
-export function LightbulbIcon({
+export default function LightbulbIcon({
   id,
   color,
 }: {

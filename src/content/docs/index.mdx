@@ -1,0 +1,46 @@
+---
+title: Tork - Open Source Workflow Engine
+description: Tork is an open-source workflow engine designed for scale with simplicity in mind.
+template: splash
+hero:
+  tagline: Tork is an open-source workflow engine designed for scale with simplicity in mind.
+  image:
+    alt: Tork Logo
+    dark: ../../assets/dark-logo.svg
+    light: ../../assets/light-logo.svg
+  actions:
+    - text: Get Started
+      link: /introduction/getting-started/
+      icon: right-arrow
+    # - text: Read the Starlight docs
+    #  link: https://starlight.astro.build
+    #  icon: external
+    #  variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from "@astrojs/starlight/components";
+
+## Next steps
+
+<CardGrid>
+  <a href="/introduction/getting-started/">
+    <Card title="Installation" icon="pencil">
+      Step-by-step guide to getting you up and running.
+    </Card>
+  </a>
+  <a href="/introduction/architecture/">
+    <Card title="Architecture" icon="setting">
+      Take a look under the hood.
+    </Card>
+  </a>
+  <a href="/reference/rest-api/">
+    <Card title="API reference" icon="document">
+      Learn how to interact with Tork using its REST API.
+    </Card>
+  </a>
+  <a href="/extend/intro/">
+    <Card title="Extend Tork" icon="open-book">
+      Extend Tork for your particular use case.
+    </Card>
+  </a>
+</CardGrid>
