@@ -13,6 +13,8 @@
   --sl-color-accent: oklch(12.9% 0.042 264.695);
   --sl-color-text-accent: oklch(74.6% 0.16 232.661);
   --sl-color-text-invert: white;
+  --sl-card-border: oklch(27.9% 0.041 260.031);
+  --sl-card-bg: oklch(20.8% 0.042 265.755);
 }
 
 html,
@@ -30,6 +32,10 @@ body {
 
 .card {
   @apply rounded-md bg-white dark:bg-slate-900;
+}
+
+.card .icon {
+  @apply bg-gray-100 border-gray-200 dark:bg-slate-800 border dark:border-gray-700;
 }
 
 .pagination-links a {
